@@ -11,8 +11,6 @@ Noise reference - http://openaudio.blogspot.com/2017/03/teensy-audio-board-self-
 
 TO DO LIST
 ==================================
-    Envelop filter switch reversed?
-    All rotary pots are reversed!
     Delay time exceeds memory limits? adjust memory allocation or limit range of delay time
     Change order of notes?
     Buttons not yet implemented:

@@ -207,7 +207,7 @@ void processPotsDirectValues_SynthMode() {
           attackTimeFilter = potsDirectValues[i] * 2;
           attackTime = potsDirectValues[i] * 2;
         }
-        if (envelopeFilter == LOW) {
+        if (envelopeFilter == HIGH) {
           attackTimeFilter = potsDirectValues[i] * 2;
         } else {
           attackTime = potsDirectValues[i] * 2;
@@ -219,7 +219,7 @@ void processPotsDirectValues_SynthMode() {
           decayTimeFilter = potsDirectValues[i];
           decayTime = potsDirectValues[i];
         }
-        if (envelopeFilter == LOW) {
+        if (envelopeFilter == HIGH) {
           decayTimeFilter = potsDirectValues[i];
         } else {
           decayTime = potsDirectValues[i];
@@ -232,7 +232,7 @@ void processPotsDirectValues_SynthMode() {
           sustainLevelFilter = mapfloat(sustainLevelFilter, 0, 1023, -1, 1);
           sustainLevel = potsDirectValues[i] / 1023;
         }
-        if (envelopeFilter == LOW) {
+        if (envelopeFilter == HIGH) {
           sustainLevelFilter = potsDirectValues[i];
           sustainLevelFilter = mapfloat(sustainLevelFilter, 0, 1023, -1, 1);
         } else {
@@ -245,7 +245,7 @@ void processPotsDirectValues_SynthMode() {
           releaseTimeFilter = potsDirectValues[i] * 2;
           releaseTime = potsDirectValues[i] * 2;
         }
-        if (envelopeFilter == LOW) {
+        if (envelopeFilter == HIGH) {
           releaseTimeFilter = potsDirectValues[i] * 2;
         } else {
           releaseTime = potsDirectValues[i] * 2;
@@ -325,177 +325,3 @@ void peakProcessing_SynthMode() {
     //    DEBUG_PRINT("\nLFO Detune: ", deTuneLfo);
   }
 }
-
-void processButtons_SynthMode() {
-  // !! CHECK BUTTONS - REPLACE WITH DEBOUNCE LIBRARY AND NEW FUNCTION
-  for (int i = 0; i < 8; i++) {
-    btnState[i] = digitalRead(noteBtnPins[i]);
-    if (noteBounce[i].update()) {
-      DEBUG_PRINT("\nButton Pressed: ", noteFreq[keyIndex][i]);
-      if (i == 0) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice1env.amplitude(1, attackTime);
-          voice1filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice1env.amplitude(0, releaseTime);
-          voice1filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-      if (i == 1) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice2env.amplitude(1, attackTime);
-          voice2filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice2env.amplitude(0, releaseTime);
-          voice2filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-      if (i == 2) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice3env.amplitude(1, attackTime);
-          voice3filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice3env.amplitude(0, releaseTime);
-          voice3filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-      if (i == 3) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice4env.amplitude(1, attackTime);
-          voice4filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice4env.amplitude(0, releaseTime);
-          voice4filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-      if (i == 4) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice5env.amplitude(1, attackTime);
-          voice5filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice5env.amplitude(0, releaseTime);
-          voice5filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-      if (i == 5) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice6env.amplitude(1, attackTime);
-          voice6filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice6env.amplitude(0, releaseTime);
-          voice6filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-      if (i == 6) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice7env.amplitude(1, attackTime);
-          voice7filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice7env.amplitude(0, releaseTime);
-          voice7filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-      if (i == 7) {
-        if (btnState[i] == LOW && btnStatePrevious[i] == HIGH) {
-          voice8env.amplitude(1, attackTime);
-          voice8filterenv.amplitude(1, attackTimeFilter);
-          noteTrigFlag[i] = true;
-          attackWait[i] = millis();
-        } else {
-          noteTrigFlag[i] = false;
-          voice8env.amplitude(0, releaseTime);
-          voice8filterenv.amplitude(-1, releaseTimeFilter);
-        }
-      }
-    }
-    if (btnState[i] == LOW) {
-      if (i == 0) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice1env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice1filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-      if (i == 1) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice2env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice2filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-      if (i == 2) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice3env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice3filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-      if (i == 3) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice4env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice4filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-      if (i == 4) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice5env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice5filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-      if (i == 5) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice6env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice6filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-      if (i == 6) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice7env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice7filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-      if (i == 7) {
-        if (millis() - attackWait[i] > attackTime && noteTrigFlag[i]) {
-          voice8env.amplitude(sustainLevel, decayTime);
-        }
-        if (millis() - attackWait[i] > attackTimeFilter && noteTrigFlag[i]) {
-          voice8filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-        }
-      }
-    }
-    btnStatePrevious[i] = btnState[i];
-  }
-}
-
