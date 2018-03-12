@@ -1,3 +1,5 @@
+
+
 void initLEDs() {
   pinMode(LED_RED_PIN, OUTPUT);
   pinMode(LED_GREEN_PIN, OUTPUT);
@@ -66,9 +68,6 @@ void initButtons() {
   noteEight.onPress = onPressNoteEight;
   noteEight.onHold = onHoldNoteEight;
   noteEight.onRelease = onReleaseNoteEight;
-
-  modeToggle.onClick = onClickModeToggle;
-  modeToggle.onHold = onHoldModeToggle;
 
   //  modeToggle.onPress = onPressModeToggle;       // fires when pressed
   //  modeToggle.onRelease = onReleaseModeToggle;   // fires everytime it's released
@@ -192,6 +191,7 @@ void onPressNoteOne(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  sound1.play(AudioSampleKick);
 }
 }
 void onHoldNoteOne(DebounceButton* btn) {
@@ -232,6 +232,7 @@ void onPressNoteTwo(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  sound2.play(AudioSampleSnare);
 }
 }
 void onHoldNoteTwo(DebounceButton* btn) {
@@ -500,28 +501,6 @@ void onReleaseNoteEight(DebounceButton* btn) {
   // drum
 }
 }
-
-void onClickModeToggle(DebounceButton* btn) {
-  DEBUG_PRINTS("\nMode Toggle Button Pressed.");
-  if (currentMode == 0) {
-    // synth
-  }
-  else if (currentMode == 1) {
-  // drum
-}
-}
-
-void onHoldModeToggle(DebounceButton* btn) {
-  DEBUG_PRINTS("\nMode Toggle Button Held.");
-  if (currentMode == 0) {
-    // synth
-  }
-  else if (currentMode == 1) {
-  // drum
-}
-}
-
-
 
 
 

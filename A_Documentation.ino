@@ -12,15 +12,16 @@ Noise reference - http://openaudio.blogspot.com/2017/03/teensy-audio-board-self-
 TO DO LIST
 ==================================
     Delay time exceeds memory limits? adjust memory allocation or limit range of delay time
+    Create drum sounds for better testing
+    Enable delay time and delay feedback pots in drum mode
     Change order of notes?
     Buttons not yet implemented:
-      MODE_TOGGLE_PIN A10 (toggles mode between synth and drum) (this is an analog input pin)
       MODE_LED_PIN A14 (turn LED on when in drum mode - not working)
       OUTPUT_SELECT_PIN (switch to change audio output - not an option?)
       BASS_BOOST_PIN (button to change bass boost status)
         sgtl5000_1.enhanceBassEnable();
         sgtl5000_1.enhanceBassDisable();
-    Investigate noise problem, try ground loop eliminator
+    Investigate noise problem - only in line-out. Problem with amp ground?
     Make Green and Blue LEDs power less to match the output of the red?
     Replace power jack with the correct size, laser cut new side peice without the lineout option
     map volume pot so it is log and not linear

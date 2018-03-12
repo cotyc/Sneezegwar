@@ -21,6 +21,11 @@
 #include <SerialFlash.h>
 #include <DebounceButton.h>
 
+// WAV files converted to code by wav2sketch
+#include "AudioSampleSnare.h"        // http://www.freesound.org/people/KEVOY/sounds/82583/
+#include "AudioSampleKick.h"         // http://www.freesound.org/people/DWSD/sounds/171104/
+
+
 // LEDs
 #define LED_RED_PIN 3      
 #define LED_GREEN_PIN 4      
@@ -63,89 +68,100 @@
 // *************************************************************************************************************
 // *************************************************************************************************************
 
+#include <Audio.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+
 // GUItool: begin automatically generated code
-AudioSynthWaveformDc     lfoenvelope;          //xy=589.047534942627,966.6665487289429
-AudioSynthWaveform       lfo;            //xy=677.4761581420898,1172.523769378662
-AudioMixer4              mixer1;         //xy=720.9047355651855,1027.666706085205
-AudioAnalyzePeak         peak1;          //xy=949.0476112365723,890.8095207214355
-AudioSynthWaveform       voice8b;        //xy=1185.6190299987793,1941.6666355133057
-AudioSynthNoiseWhite     voice8n;        //xy=1185.6190299987793,1976.6666355133057
-AudioSynthWaveform       voice8a;        //xy=1187.6190299987793,1903.6666355133057
-AudioSynthWaveform       voice4a;        //xy=1206.6190299987793,925.6666355133057
-AudioSynthWaveform       voice4b;        //xy=1207.6190299987793,963.6666355133057
-AudioSynthNoiseWhite     voice4n;        //xy=1207.6190299987793,998.6666355133057
-AudioSynthWaveform       voice5b;        //xy=1208.6190299987793,1219.6666355133057
-AudioSynthNoiseWhite     voice5n;        //xy=1208.6190299987793,1254.6666355133057
-AudioSynthWaveform       voice5a;        //xy=1213.6190299987793,1176.6666355133057
-AudioSynthWaveform       voice7b;        //xy=1217.6190299987793,1710.6666355133057
-AudioSynthNoiseWhite     voice7n;        //xy=1217.6190299987793,1745.6666355133057
-AudioSynthWaveform       voice6b;        //xy=1220.6190299987793,1473.6666355133057
-AudioSynthNoiseWhite     voice6n;        //xy=1220.6190299987793,1508.6666355133057
-AudioSynthWaveform       voice6a;        //xy=1222.6190299987793,1435.6666355133057
-AudioSynthWaveform       voice7a;        //xy=1222.6190299987793,1667.6666355133057
-AudioSynthWaveform       voice3b;        //xy=1228.6190299987793,715.6666355133057
-AudioSynthNoiseWhite     voice3n;        //xy=1228.6190299987793,750.6666355133057
-AudioSynthWaveform       voice3a;        //xy=1233.6190299987793,672.6666355133057
-AudioSynthWaveform       voice1b;        //xy=1258.6190299987793,249.66663551330566
-AudioSynthNoiseWhite     voice1n;        //xy=1261.6190299987793,293.66663551330566
-AudioSynthWaveform       voice2b;        //xy=1261.6190299987793,483.66663551330566
-AudioSynthNoiseWhite     voice2n;        //xy=1261.6190299987793,518.6666355133057
-AudioSynthWaveform       voice1a;        //xy=1263.6190299987793,206.66663551330566
-AudioSynthWaveform       voice2a;        //xy=1263.6190299987793,445.66663551330566
-AudioSynthWaveformDc     voice8filterenv; //xy=1313.6190299987793,2087.6666355133057
-AudioSynthWaveformDc     voice8env;      //xy=1327.6190299987793,2026.6666355133057
-AudioMixer4              voice8mix;      //xy=1330.6190299987793,1961.6666355133057
-AudioSynthWaveformDc     voice4filterenv; //xy=1335.6190299987793,1109.6666355133057
-AudioSynthWaveformDc     voice5filterenv; //xy=1336.6190299987793,1365.6666355133057
-AudioSynthWaveformDc     voice7filterenv; //xy=1345.6190299987793,1856.6666355133057
-AudioSynthWaveformDc     voice4env;      //xy=1349.6190299987793,1048.6666355133057
-AudioSynthWaveformDc     voice6filterenv; //xy=1348.6190299987793,1619.6666355133057
-AudioSynthWaveformDc     voice5env;      //xy=1350.6190299987793,1304.6666355133057
-AudioMixer4              voice4mix;      //xy=1352.6190299987793,983.6666355133057
-AudioMixer4              voice5mix;      //xy=1353.6190299987793,1239.6666355133057
-AudioSynthWaveformDc     voice3filterenv; //xy=1356.6190299987793,861.6666355133057
-AudioSynthWaveformDc     voice7env;      //xy=1359.6190299987793,1795.6666355133057
-AudioSynthWaveformDc     voice6env;      //xy=1362.6190299987793,1558.6666355133057
-AudioMixer4              voice7mix;      //xy=1362.6190299987793,1730.6666355133057
-AudioMixer4              voice6mix;      //xy=1365.6190299987793,1493.6666355133057
-AudioSynthWaveformDc     voice3env;      //xy=1370.6190299987793,800.6666355133057
-AudioMixer4              voice3mix;      //xy=1373.6190299987793,735.6666355133057
-AudioSynthWaveformDc     voice1filterenv; //xy=1387.6190299987793,385.66663551330566
-AudioSynthWaveformDc     voice2filterenv; //xy=1389.6190299987793,629.6666355133057
-AudioMixer4              voice1mix;      //xy=1403.6190299987793,269.66663551330566
-AudioSynthWaveformDc     voice2env;      //xy=1403.6190299987793,568.6666355133057
-AudioSynthWaveformDc     voice1env;      //xy=1404.6190299987793,334.66663551330566
-AudioMixer4              voice2mix;      //xy=1406.6190299987793,503.66663551330566
-AudioEffectMultiply      voice8multiply; //xy=1494.6190299987793,1999.6666355133057
-AudioMixer4              voice8filtermodmixer; //xy=1504.6190299987793,2115.6666355133057
-AudioEffectMultiply      voice4multiply; //xy=1516.6190299987793,1021.6666355133057
-AudioEffectMultiply      voice5multiply; //xy=1517.6190299987793,1277.6666355133057
-AudioMixer4              voice4filtermodmixer; //xy=1526.6190299987793,1137.6666355133057
-AudioEffectMultiply      voice7multiply; //xy=1526.6190299987793,1768.6666355133057
-AudioEffectMultiply      voice6multiply; //xy=1529.6190299987793,1531.6666355133057
-AudioMixer4              voice5filtermodmixer; //xy=1534.6190299987793,1387.6666355133057
-AudioEffectMultiply      voice3multiply; //xy=1537.6190299987793,773.6666355133057
-AudioMixer4              voice6filtermodmixer; //xy=1539.6190299987793,1647.6666355133057
-AudioMixer4              voice7filtermodmixer; //xy=1543.6190299987793,1878.6666355133057
-AudioMixer4              voice3filtermodmixer; //xy=1554.6190299987793,883.6666355133057
-AudioEffectMultiply      voice1multiply; //xy=1567.6190299987793,307.66663551330566
-AudioEffectMultiply      voice2multiply; //xy=1570.6190299987793,541.6666355133057
-AudioMixer4              voice2filtermodmixer; //xy=1580.6190299987793,657.6666355133057
-AudioMixer4              voice1filtermodmixer; //xy=1584.6190299987793,417.66663551330566
-AudioFilterStateVariable voice8filter;   //xy=1677.6190299987793,2022.6666355133057
-AudioFilterStateVariable voice5filter;   //xy=1697.6190299987793,1321.6666355133057
-AudioFilterStateVariable voice4filter;   //xy=1699.6190299987793,1044.6666355133057
-AudioFilterStateVariable voice7filter;   //xy=1706.6190299987793,1812.6666355133057
-AudioFilterStateVariable voice6filter;   //xy=1712.6190299987793,1554.6666355133057
-AudioFilterStateVariable voice3filter;   //xy=1717.6190299987793,817.6666355133057
-AudioFilterStateVariable voice2filter;   //xy=1753.6190299987793,564.6666355133057
-AudioFilterStateVariable voice1filter;   //xy=1770.6190299987793,359.66663551330566
-AudioMixer4              last4premix;    //xy=2177.6190299987793,1294.6666355133057
-AudioMixer4              first4premix;   //xy=2178.6190299987793,1210.6666355133057
-AudioFilterStateVariable delayFilter;    //xy=2627.6190299987793,1404.6666355133057
-AudioMixer4              mainOutMixer;   //xy=2698.6190299987793,1287.6666355133057
-AudioEffectDelay         delay1;         //xy=2756.6190299987793,1599.6666355133057
-AudioOutputI2S           i2s1;           //xy=2924.6190299987793,1285.6666355133057
+AudioSynthWaveformDc     lfoenvelope;    //xy=543,791
+AudioSynthWaveform       lfo;            //xy=631,997
+AudioMixer4              mixer1;         //xy=674,852
+AudioAnalyzePeak         peak1;          //xy=903,715
+AudioSynthWaveform       voice8b;        //xy=1139,1766
+AudioSynthNoiseWhite     voice8n;        //xy=1139,1801
+AudioSynthWaveform       voice8a;        //xy=1141,1728
+AudioSynthWaveform       voice4a;        //xy=1160,750
+AudioSynthWaveform       voice4b;        //xy=1161,788
+AudioSynthNoiseWhite     voice4n;        //xy=1161,823
+AudioSynthWaveform       voice5b;        //xy=1162,1044
+AudioSynthNoiseWhite     voice5n;        //xy=1162,1079
+AudioSynthWaveform       voice5a;        //xy=1167,1001
+AudioSynthWaveform       voice7b;        //xy=1171,1535
+AudioSynthNoiseWhite     voice7n;        //xy=1171,1570
+AudioSynthWaveform       voice6b;        //xy=1174,1298
+AudioSynthNoiseWhite     voice6n;        //xy=1174,1333
+AudioSynthWaveform       voice6a;        //xy=1176,1260
+AudioSynthWaveform       voice7a;        //xy=1176,1492
+AudioSynthWaveform       voice3b;        //xy=1182,540
+AudioSynthNoiseWhite     voice3n;        //xy=1182,575
+AudioSynthWaveform       voice3a;        //xy=1187,497
+AudioSynthWaveform       voice1b;        //xy=1212,74
+AudioSynthNoiseWhite     voice1n;        //xy=1215,118
+AudioSynthWaveform       voice2b;        //xy=1215,308
+AudioSynthNoiseWhite     voice2n;        //xy=1215,343
+AudioSynthWaveform       voice1a;        //xy=1217,31
+AudioSynthWaveform       voice2a;        //xy=1217,270
+AudioSynthWaveformDc     voice8filterenv; //xy=1267,1912
+AudioSynthWaveformDc     voice8env;      //xy=1281,1851
+AudioMixer4              voice8mix;      //xy=1284,1786
+AudioSynthWaveformDc     voice4filterenv; //xy=1289,934
+AudioSynthWaveformDc     voice5filterenv; //xy=1290,1190
+AudioSynthWaveformDc     voice7filterenv; //xy=1299,1681
+AudioSynthWaveformDc     voice4env;      //xy=1303,873
+AudioSynthWaveformDc     voice6filterenv; //xy=1302,1444
+AudioSynthWaveformDc     voice5env;      //xy=1304,1129
+AudioMixer4              voice4mix;      //xy=1306,808
+AudioMixer4              voice5mix;      //xy=1307,1064
+AudioSynthWaveformDc     voice3filterenv; //xy=1310,686
+AudioSynthWaveformDc     voice7env;      //xy=1313,1620
+AudioSynthWaveformDc     voice6env;      //xy=1316,1383
+AudioMixer4              voice7mix;      //xy=1316,1555
+AudioMixer4              voice6mix;      //xy=1319,1318
+AudioSynthWaveformDc     voice3env;      //xy=1324,625
+AudioMixer4              voice3mix;      //xy=1327,560
+AudioSynthWaveformDc     voice1filterenv; //xy=1341,210
+AudioSynthWaveformDc     voice2filterenv; //xy=1343,454
+AudioMixer4              voice1mix;      //xy=1357,94
+AudioSynthWaveformDc     voice2env;      //xy=1357,393
+AudioSynthWaveformDc     voice1env;      //xy=1358,159
+AudioMixer4              voice2mix;      //xy=1360,328
+AudioEffectMultiply      voice8multiply; //xy=1448,1824
+AudioMixer4              voice8filtermodmixer; //xy=1458,1940
+AudioEffectMultiply      voice4multiply; //xy=1470,846
+AudioEffectMultiply      voice5multiply; //xy=1471,1102
+AudioMixer4              voice4filtermodmixer; //xy=1480,962
+AudioEffectMultiply      voice7multiply; //xy=1480,1593
+AudioEffectMultiply      voice6multiply; //xy=1483,1356
+AudioMixer4              voice5filtermodmixer; //xy=1488,1212
+AudioEffectMultiply      voice3multiply; //xy=1491,598
+AudioMixer4              voice6filtermodmixer; //xy=1493,1472
+AudioMixer4              voice7filtermodmixer; //xy=1497,1703
+AudioMixer4              voice3filtermodmixer; //xy=1508,708
+AudioEffectMultiply      voice1multiply; //xy=1521,132
+AudioEffectMultiply      voice2multiply; //xy=1524,366
+AudioMixer4              voice2filtermodmixer; //xy=1534,482
+AudioMixer4              voice1filtermodmixer; //xy=1538,242
+AudioFilterStateVariable voice8filter;   //xy=1631,1847
+AudioFilterStateVariable voice5filter;   //xy=1651,1146
+AudioFilterStateVariable voice4filter;   //xy=1653,869
+AudioFilterStateVariable voice7filter;   //xy=1660,1637
+AudioFilterStateVariable voice6filter;   //xy=1666,1379
+AudioFilterStateVariable voice3filter;   //xy=1671,642
+AudioFilterStateVariable voice2filter;   //xy=1707,389
+AudioFilterStateVariable voice1filter;   //xy=1724,184
+AudioMixer4              last4premix;    //xy=2131,1119
+AudioMixer4              first4premix;   //xy=2132,1035
+AudioPlayMemory          sound1;       //xy=2199,1478
+AudioPlayMemory          sound2;       //xy=2201,1523
+AudioPlayMemory          sound3;       //xy=2223,1579
+AudioPlayMemory          sound4;       //xy=2242,1632
+AudioMixer4              mixer2;         //xy=2410,1499
+AudioFilterStateVariable delayFilter;    //xy=2581,1229
+AudioMixer4              mainOutMixer;   //xy=2652,1112
+AudioEffectDelay         delay1;         //xy=2710,1424
+AudioOutputI2S           i2s1;           //xy=2878,1110
 AudioConnection          patchCord1(lfoenvelope, 0, mixer1, 0);
 AudioConnection          patchCord2(lfo, 0, voice1filtermodmixer, 1);
 AudioConnection          patchCord3(lfo, 0, voice2filtermodmixer, 1);
@@ -231,13 +247,19 @@ AudioConnection          patchCord82(voice2filter, 0, first4premix, 1);
 AudioConnection          patchCord83(voice1filter, 0, first4premix, 0);
 AudioConnection          patchCord84(last4premix, 0, mainOutMixer, 1);
 AudioConnection          patchCord85(first4premix, 0, mainOutMixer, 0);
-AudioConnection          patchCord86(delayFilter, 0, mainOutMixer, 3);
-AudioConnection          patchCord87(mainOutMixer, 0, i2s1, 0);
-AudioConnection          patchCord88(mainOutMixer, 0, i2s1, 1);
-AudioConnection          patchCord89(mainOutMixer, delay1);
-AudioConnection          patchCord90(delay1, 0, delayFilter, 0);
-AudioControlSGTL5000     sgtl5000_1;     //xy=2661.6190299987793,1054.6666355133057
+AudioConnection          patchCord86(sound1, 0, mixer2, 0);
+AudioConnection          patchCord87(sound2, 0, mixer2, 1);
+AudioConnection          patchCord88(sound3, 0, mixer2, 2);
+AudioConnection          patchCord89(sound4, 0, mixer2, 3);
+AudioConnection          patchCord90(mixer2, 0, mainOutMixer, 2);
+AudioConnection          patchCord91(delayFilter, 0, mainOutMixer, 3);
+AudioConnection          patchCord92(mainOutMixer, 0, i2s1, 0);
+AudioConnection          patchCord93(mainOutMixer, 0, i2s1, 1);
+AudioConnection          patchCord94(mainOutMixer, delay1);
+AudioConnection          patchCord95(delay1, 0, delayFilter, 0);
+AudioControlSGTL5000     sgtl5000_1;     //xy=2615,879
 // GUItool: end automatically generated code
+
 
 // *************************************************************************************************************
 // *************************************************************************************************************
@@ -260,23 +282,8 @@ DebounceButton noteFive = DebounceButton(BTN_PIN_4, DBTN_PULLUP_INTERNAL, 10, 8,
 DebounceButton noteSix = DebounceButton(BTN_PIN_5, DBTN_PULLUP_INTERNAL, 10, 8, 8);
 DebounceButton noteSeven = DebounceButton(BTN_PIN_6, DBTN_PULLUP_INTERNAL, 10, 8, 8);
 DebounceButton noteEight = DebounceButton(BTN_PIN_7, DBTN_PULLUP_INTERNAL, 10, 8, 8);
-DebounceButton modeToggle = DebounceButton(MODE_TOGGLE_PIN, DBTN_PULLUP_INTERNAL, 20, 2000);
+//DebounceButton modeToggle = DebounceButton(MODE_TOGGLE_PIN, DBTN_PULLUP_INTERNAL, 20, 2000);
 
-
-// Buttons
-//int noteBtnPins[8] = {BTN_PIN_0, BTN_PIN_1, BTN_PIN_2, BTN_PIN_3, BTN_PIN_4, BTN_PIN_5, BTN_PIN_6, BTN_PIN_7};
-//
-//Bounce noteBounce[] = {
-//                        Bounce(BTN_PIN_0,10),
-//                        Bounce(BTN_PIN_1,10),
-//                        Bounce(BTN_PIN_2,10),
-//                        Bounce(BTN_PIN_3,10),
-//                        Bounce(BTN_PIN_4,10),
-//                        Bounce(BTN_PIN_5,10),
-//                        Bounce(BTN_PIN_6,10),
-//                        Bounce(BTN_PIN_7,10),
-//
-//                      };
 
 int colorIndex = 0;
 int keyIndex = 0;
@@ -298,8 +305,6 @@ float noteFreq[7][8] = {
 
 
 
-//int btnState[8];
-//int btnStatePrevious[8];
 
 
 // Analog Inputs
@@ -444,11 +449,6 @@ void setup() {
 
   pinMode(BASS_BOOST_PIN, INPUT_PULLUP);
 
-//  for(int i=0; i<8; i++){
-//    pinMode(noteBtnPins[i], INPUT_PULLUP);
-//    digitalWrite(noteBtnPins[i], HIGH);
-//  }
-
   playChime(2);
 
 }
@@ -463,14 +463,17 @@ void loop() {
   setVolumes();
   DebounceButton::updateAll();
 
-  // Execute code for Synth mode
-  if (currentMode == 0) {
+  if (analogRead(MODE_TOGGLE_PIN) < 200) {
+    DEBUG_PRINTS("\nToggle Mode Button Pressed.");
+    if (currentMode == 0) currentMode = 1;
+    else if (currentMode == 1) currentMode = 0;
+    delay(500);  // !! temporary debounce method
+  }
 
+  if (currentMode == 0) {
     // Operate Synth mode
     envelopeFilter = digitalRead(ENVELOPE_SWITCH_PIN);
     defineNotes();
-
-   // processButtons_SynthMode(); // !! Temporary - need to replace with DebounceButton library and clean up code
 
     processPotsMuxerValues_SynthMode();
     processPotsDirectValues_SynthMode();
