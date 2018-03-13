@@ -297,9 +297,10 @@ void peakProcessing_SynthMode() {
   // LFO Peak Processing
   if (peak1.available()) tempPeak = peak1.read();
 
+  // Commented out for LED tests to secondary Teensy
   analogWrite(LED_BLUE_PIN, blueLevel * tempPeak);
-  analogWrite(LED_GREEN_PIN, greenLevel * tempPeak);
-  analogWrite(LED_RED_PIN, redLevel * tempPeak);
+  // analogWrite(LED_GREEN_PIN, greenLevel * tempPeak);
+  // analogWrite(LED_RED_PIN, redLevel * tempPeak);
 
   voice1a.pulseWidth((tempPeak / 2) + tempPulseWidth);
   voice2a.pulseWidth((tempPeak / 2) + tempPulseWidth);

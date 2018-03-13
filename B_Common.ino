@@ -1,21 +1,22 @@
 
 
 void initLEDs() {
-  pinMode(LED_RED_PIN, OUTPUT);
-  pinMode(LED_GREEN_PIN, OUTPUT);
-  pinMode(LED_BLUE_PIN, OUTPUT);
-  analogWrite(LED_RED_PIN, 200);
-  delay(300);
-  analogWrite(LED_RED_PIN, 0);
-  analogWrite(LED_GREEN_PIN, 255);
+  // Commented out for LED tests to secondary Teensy
+  // pinMode(LED_RED_PIN, OUTPUT);
+  // pinMode(LED_GREEN_PIN, OUTPUT);
+  // pinMode(LED_BLUE_PIN, OUTPUT);
+  // analogWrite(LED_RED_PIN, 200);
+  // delay(300);
+  // analogWrite(LED_RED_PIN, 0);
+  // analogWrite(LED_GREEN_PIN, 255);
   analogWrite(LED_BLUE_PIN, 0);
   delay(300);
-  analogWrite(LED_RED_PIN, 0);
-  analogWrite(LED_GREEN_PIN, 0);
+  // analogWrite(LED_RED_PIN, 0);
+  // analogWrite(LED_GREEN_PIN, 0);
   analogWrite(LED_BLUE_PIN, 255);
   delay(300);
-  analogWrite(LED_RED_PIN, 0);
-  analogWrite(LED_GREEN_PIN, 0);
+  // analogWrite(LED_RED_PIN, 0);
+  // analogWrite(LED_GREEN_PIN, 0);
   analogWrite(LED_BLUE_PIN, 0);
   redLevel = 182;
   greenLevel = 246;
@@ -191,7 +192,8 @@ void onPressNoteOne(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
-  sound1.play(AudioSampleKick);
+  playFlashRaw1.play(sampleNames[4]);
+
 }
 }
 void onHoldNoteOne(DebounceButton* btn) {
@@ -232,7 +234,7 @@ void onPressNoteTwo(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
-  sound2.play(AudioSampleSnare);
+  playFlashRaw2.play(sampleNames[3]);
 }
 }
 void onHoldNoteTwo(DebounceButton* btn) {
@@ -273,6 +275,7 @@ void onPressNoteThree(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  playFlashRaw3.play(sampleNames[2]);
 }
 }
 void onHoldNoteThree(DebounceButton* btn) {
@@ -313,6 +316,7 @@ void onPressNoteFour(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  playFlashRaw4.play(sampleNames[5]);
 }
 }
 void onHoldNoteFour(DebounceButton* btn) {
@@ -353,6 +357,7 @@ void onPressNoteFive(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  playFlashRaw5.play(sampleNames[0]);
 }
 }
 void onHoldNoteFive(DebounceButton* btn) {
@@ -393,6 +398,7 @@ void onPressNoteSix(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  playFlashRaw6.play(sampleNames[1]);
 }
 }
 void onHoldNoteSix(DebounceButton* btn) {
@@ -433,6 +439,7 @@ void onPressNoteSeven(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  playFlashRaw7.play(sampleNames[6]);
 }
 }
 void onHoldNoteSeven(DebounceButton* btn) {
@@ -473,6 +480,7 @@ void onPressNoteEight(DebounceButton* btn) {
   }
   else if (currentMode == 1) {
   // drum
+  playFlashRaw8.play(sampleNames[7]);
 }
 }
 void onHoldNoteEight(DebounceButton* btn) {

@@ -27,15 +27,23 @@
 
 
 // LEDs
-#define LED_RED_PIN 3      
-#define LED_GREEN_PIN 4      
+// Commented out for LED tests to secondary Teensy
+// #define LED_RED_PIN 3      
+// #define LED_GREEN_PIN 4      
 #define LED_BLUE_PIN 5      
-#define MODE_LED_PIN A14
+
+// Not implemented
+// #define MODE_LED_PIN A14
 
 // Buttons
-#define BTN_PIN_0 0      
-#define BTN_PIN_1 1      
-#define BTN_PIN_2 2      
+// Commented out for LED tests to secondary Teensy
+// #define BTN_PIN_0 0      
+// #define BTN_PIN_1 1      
+// #define BTN_PIN_2 2   
+
+#define BTN_PIN_0 2      
+#define BTN_PIN_1 3      
+#define BTN_PIN_2 4         
 #define BTN_PIN_3 8      
 #define BTN_PIN_4 16     
 #define BTN_PIN_5 17     
@@ -65,6 +73,12 @@
 
 
 
+
+
+
+
+
+
 // *************************************************************************************************************
 // *************************************************************************************************************
 
@@ -75,93 +89,100 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveformDc     lfoenvelope;    //xy=543,791
-AudioSynthWaveform       lfo;            //xy=631,997
-AudioMixer4              mixer1;         //xy=674,852
-AudioAnalyzePeak         peak1;          //xy=903,715
-AudioSynthWaveform       voice8b;        //xy=1139,1766
-AudioSynthNoiseWhite     voice8n;        //xy=1139,1801
-AudioSynthWaveform       voice8a;        //xy=1141,1728
-AudioSynthWaveform       voice4a;        //xy=1160,750
-AudioSynthWaveform       voice4b;        //xy=1161,788
-AudioSynthNoiseWhite     voice4n;        //xy=1161,823
-AudioSynthWaveform       voice5b;        //xy=1162,1044
-AudioSynthNoiseWhite     voice5n;        //xy=1162,1079
-AudioSynthWaveform       voice5a;        //xy=1167,1001
-AudioSynthWaveform       voice7b;        //xy=1171,1535
-AudioSynthNoiseWhite     voice7n;        //xy=1171,1570
-AudioSynthWaveform       voice6b;        //xy=1174,1298
-AudioSynthNoiseWhite     voice6n;        //xy=1174,1333
-AudioSynthWaveform       voice6a;        //xy=1176,1260
-AudioSynthWaveform       voice7a;        //xy=1176,1492
-AudioSynthWaveform       voice3b;        //xy=1182,540
-AudioSynthNoiseWhite     voice3n;        //xy=1182,575
-AudioSynthWaveform       voice3a;        //xy=1187,497
-AudioSynthWaveform       voice1b;        //xy=1212,74
-AudioSynthNoiseWhite     voice1n;        //xy=1215,118
-AudioSynthWaveform       voice2b;        //xy=1215,308
-AudioSynthNoiseWhite     voice2n;        //xy=1215,343
-AudioSynthWaveform       voice1a;        //xy=1217,31
-AudioSynthWaveform       voice2a;        //xy=1217,270
-AudioSynthWaveformDc     voice8filterenv; //xy=1267,1912
-AudioSynthWaveformDc     voice8env;      //xy=1281,1851
-AudioMixer4              voice8mix;      //xy=1284,1786
-AudioSynthWaveformDc     voice4filterenv; //xy=1289,934
-AudioSynthWaveformDc     voice5filterenv; //xy=1290,1190
-AudioSynthWaveformDc     voice7filterenv; //xy=1299,1681
-AudioSynthWaveformDc     voice4env;      //xy=1303,873
-AudioSynthWaveformDc     voice6filterenv; //xy=1302,1444
-AudioSynthWaveformDc     voice5env;      //xy=1304,1129
-AudioMixer4              voice4mix;      //xy=1306,808
-AudioMixer4              voice5mix;      //xy=1307,1064
-AudioSynthWaveformDc     voice3filterenv; //xy=1310,686
-AudioSynthWaveformDc     voice7env;      //xy=1313,1620
-AudioSynthWaveformDc     voice6env;      //xy=1316,1383
-AudioMixer4              voice7mix;      //xy=1316,1555
-AudioMixer4              voice6mix;      //xy=1319,1318
-AudioSynthWaveformDc     voice3env;      //xy=1324,625
-AudioMixer4              voice3mix;      //xy=1327,560
-AudioSynthWaveformDc     voice1filterenv; //xy=1341,210
-AudioSynthWaveformDc     voice2filterenv; //xy=1343,454
-AudioMixer4              voice1mix;      //xy=1357,94
-AudioSynthWaveformDc     voice2env;      //xy=1357,393
-AudioSynthWaveformDc     voice1env;      //xy=1358,159
-AudioMixer4              voice2mix;      //xy=1360,328
-AudioEffectMultiply      voice8multiply; //xy=1448,1824
-AudioMixer4              voice8filtermodmixer; //xy=1458,1940
-AudioEffectMultiply      voice4multiply; //xy=1470,846
-AudioEffectMultiply      voice5multiply; //xy=1471,1102
-AudioMixer4              voice4filtermodmixer; //xy=1480,962
-AudioEffectMultiply      voice7multiply; //xy=1480,1593
-AudioEffectMultiply      voice6multiply; //xy=1483,1356
-AudioMixer4              voice5filtermodmixer; //xy=1488,1212
-AudioEffectMultiply      voice3multiply; //xy=1491,598
-AudioMixer4              voice6filtermodmixer; //xy=1493,1472
-AudioMixer4              voice7filtermodmixer; //xy=1497,1703
-AudioMixer4              voice3filtermodmixer; //xy=1508,708
-AudioEffectMultiply      voice1multiply; //xy=1521,132
-AudioEffectMultiply      voice2multiply; //xy=1524,366
-AudioMixer4              voice2filtermodmixer; //xy=1534,482
-AudioMixer4              voice1filtermodmixer; //xy=1538,242
-AudioFilterStateVariable voice8filter;   //xy=1631,1847
-AudioFilterStateVariable voice5filter;   //xy=1651,1146
-AudioFilterStateVariable voice4filter;   //xy=1653,869
-AudioFilterStateVariable voice7filter;   //xy=1660,1637
-AudioFilterStateVariable voice6filter;   //xy=1666,1379
-AudioFilterStateVariable voice3filter;   //xy=1671,642
-AudioFilterStateVariable voice2filter;   //xy=1707,389
-AudioFilterStateVariable voice1filter;   //xy=1724,184
-AudioMixer4              last4premix;    //xy=2131,1119
-AudioMixer4              first4premix;   //xy=2132,1035
-AudioPlayMemory          sound1;       //xy=2199,1478
-AudioPlayMemory          sound2;       //xy=2201,1523
-AudioPlayMemory          sound3;       //xy=2223,1579
-AudioPlayMemory          sound4;       //xy=2242,1632
-AudioMixer4              mixer2;         //xy=2410,1499
-AudioFilterStateVariable delayFilter;    //xy=2581,1229
-AudioMixer4              mainOutMixer;   //xy=2652,1112
-AudioEffectDelay         delay1;         //xy=2710,1424
-AudioOutputI2S           i2s1;           //xy=2878,1110
+AudioSynthWaveformDc     lfoenvelope;    //xy=321,831
+AudioSynthWaveform       lfo;            //xy=409,1037
+AudioMixer4              mixer1;         //xy=452,892
+AudioAnalyzePeak         peak1;          //xy=681,755
+AudioSynthWaveform       voice8b;        //xy=917,1806
+AudioSynthNoiseWhite     voice8n;        //xy=917,1841
+AudioSynthWaveform       voice8a;        //xy=919,1768
+AudioSynthWaveform       voice4a;        //xy=938,790
+AudioSynthWaveform       voice4b;        //xy=939,828
+AudioSynthNoiseWhite     voice4n;        //xy=939,863
+AudioSynthWaveform       voice5b;        //xy=940,1084
+AudioSynthNoiseWhite     voice5n;        //xy=940,1119
+AudioSynthWaveform       voice5a;        //xy=945,1041
+AudioSynthWaveform       voice7b;        //xy=949,1575
+AudioSynthNoiseWhite     voice7n;        //xy=949,1610
+AudioSynthWaveform       voice6b;        //xy=952,1338
+AudioSynthNoiseWhite     voice6n;        //xy=952,1373
+AudioSynthWaveform       voice6a;        //xy=954,1300
+AudioSynthWaveform       voice7a;        //xy=954,1532
+AudioSynthWaveform       voice3b;        //xy=960,580
+AudioSynthNoiseWhite     voice3n;        //xy=960,615
+AudioSynthWaveform       voice3a;        //xy=965,537
+AudioSynthWaveform       voice1b;        //xy=990,114
+AudioSynthNoiseWhite     voice1n;        //xy=993,158
+AudioSynthWaveform       voice2b;        //xy=993,348
+AudioSynthNoiseWhite     voice2n;        //xy=993,383
+AudioSynthWaveform       voice1a;        //xy=995,71
+AudioSynthWaveform       voice2a;        //xy=995,310
+AudioSynthWaveformDc     voice8filterenv; //xy=1045,1952
+AudioSynthWaveformDc     voice8env;      //xy=1059,1891
+AudioMixer4              voice8mix;      //xy=1062,1826
+AudioSynthWaveformDc     voice4filterenv; //xy=1067,974
+AudioSynthWaveformDc     voice5filterenv; //xy=1068,1230
+AudioSynthWaveformDc     voice7filterenv; //xy=1077,1721
+AudioSynthWaveformDc     voice4env;      //xy=1081,913
+AudioSynthWaveformDc     voice6filterenv; //xy=1080,1484
+AudioSynthWaveformDc     voice5env;      //xy=1082,1169
+AudioMixer4              voice4mix;      //xy=1084,848
+AudioMixer4              voice5mix;      //xy=1085,1104
+AudioSynthWaveformDc     voice3filterenv; //xy=1088,726
+AudioSynthWaveformDc     voice7env;      //xy=1091,1660
+AudioSynthWaveformDc     voice6env;      //xy=1094,1423
+AudioMixer4              voice7mix;      //xy=1094,1595
+AudioMixer4              voice6mix;      //xy=1097,1358
+AudioSynthWaveformDc     voice3env;      //xy=1102,665
+AudioMixer4              voice3mix;      //xy=1105,600
+AudioSynthWaveformDc     voice1filterenv; //xy=1119,250
+AudioSynthWaveformDc     voice2filterenv; //xy=1121,494
+AudioMixer4              voice1mix;      //xy=1135,134
+AudioSynthWaveformDc     voice2env;      //xy=1135,433
+AudioSynthWaveformDc     voice1env;      //xy=1136,199
+AudioMixer4              voice2mix;      //xy=1138,368
+AudioEffectMultiply      voice8multiply; //xy=1226,1864
+AudioMixer4              voice8filtermodmixer; //xy=1236,1980
+AudioEffectMultiply      voice4multiply; //xy=1248,886
+AudioEffectMultiply      voice5multiply; //xy=1249,1142
+AudioMixer4              voice4filtermodmixer; //xy=1258,1002
+AudioEffectMultiply      voice7multiply; //xy=1258,1633
+AudioEffectMultiply      voice6multiply; //xy=1261,1396
+AudioMixer4              voice5filtermodmixer; //xy=1266,1252
+AudioEffectMultiply      voice3multiply; //xy=1269,638
+AudioMixer4              voice6filtermodmixer; //xy=1271,1512
+AudioMixer4              voice7filtermodmixer; //xy=1275,1743
+AudioMixer4              voice3filtermodmixer; //xy=1286,748
+AudioEffectMultiply      voice1multiply; //xy=1299,172
+AudioEffectMultiply      voice2multiply; //xy=1302,406
+AudioMixer4              voice2filtermodmixer; //xy=1312,522
+AudioMixer4              voice1filtermodmixer; //xy=1316,282
+AudioFilterStateVariable voice8filter;   //xy=1409,1887
+AudioFilterStateVariable voice5filter;   //xy=1429,1186
+AudioFilterStateVariable voice4filter;   //xy=1431,909
+AudioFilterStateVariable voice7filter;   //xy=1438,1677
+AudioFilterStateVariable voice6filter;   //xy=1444,1419
+AudioFilterStateVariable voice3filter;   //xy=1449,682
+AudioFilterStateVariable voice2filter;   //xy=1485,429
+AudioFilterStateVariable voice1filter;   //xy=1502,224
+AudioPlaySerialflashRaw  playFlashRaw7;  //xy=1812,1897
+AudioPlaySerialflashRaw  playFlashRaw6;  //xy=1815,1843
+AudioPlaySerialflashRaw  playFlashRaw3;  //xy=1817,1653
+AudioPlaySerialflashRaw  playFlashRaw2;  //xy=1818,1608
+AudioPlaySerialflashRaw  playFlashRaw5;  //xy=1818,1787
+AudioPlaySerialflashRaw  playFlashRaw8;  //xy=1819,1952
+AudioPlaySerialflashRaw  playFlashRaw1;  //xy=1821,1551
+AudioPlaySerialflashRaw  playFlashRaw4;  //xy=1829,1712
+AudioMixer4              last4premix;    //xy=1909,1159
+AudioMixer4              first4premix;   //xy=1910,1075
+AudioMixer4              mixer2;         //xy=2061,1606
+AudioMixer4              mixer3;         //xy=2062,1762
+AudioMixer4              mixer4;         //xy=2241,1674
+AudioEffectBitcrusher    bitcrusher1;    //xy=2265,1846
+AudioFilterStateVariable delayFilter;    //xy=2359,1269
+AudioMixer4              mainOutMixer;   //xy=2430,1152
+AudioEffectDelay         delay1;         //xy=2488,1464
+AudioOutputI2S           i2s1;           //xy=2656,1150
 AudioConnection          patchCord1(lfoenvelope, 0, mixer1, 0);
 AudioConnection          patchCord2(lfo, 0, voice1filtermodmixer, 1);
 AudioConnection          patchCord3(lfo, 0, voice2filtermodmixer, 1);
@@ -245,20 +266,29 @@ AudioConnection          patchCord80(voice6filter, 0, last4premix, 1);
 AudioConnection          patchCord81(voice3filter, 0, first4premix, 2);
 AudioConnection          patchCord82(voice2filter, 0, first4premix, 1);
 AudioConnection          patchCord83(voice1filter, 0, first4premix, 0);
-AudioConnection          patchCord84(last4premix, 0, mainOutMixer, 1);
-AudioConnection          patchCord85(first4premix, 0, mainOutMixer, 0);
-AudioConnection          patchCord86(sound1, 0, mixer2, 0);
-AudioConnection          patchCord87(sound2, 0, mixer2, 1);
-AudioConnection          patchCord88(sound3, 0, mixer2, 2);
-AudioConnection          patchCord89(sound4, 0, mixer2, 3);
-AudioConnection          patchCord90(mixer2, 0, mainOutMixer, 2);
-AudioConnection          patchCord91(delayFilter, 0, mainOutMixer, 3);
-AudioConnection          patchCord92(mainOutMixer, 0, i2s1, 0);
-AudioConnection          patchCord93(mainOutMixer, 0, i2s1, 1);
-AudioConnection          patchCord94(mainOutMixer, delay1);
-AudioConnection          patchCord95(delay1, 0, delayFilter, 0);
-AudioControlSGTL5000     sgtl5000_1;     //xy=2615,879
+AudioConnection          patchCord84(playFlashRaw7, 0, mixer3, 2);
+AudioConnection          patchCord85(playFlashRaw6, 0, mixer3, 1);
+AudioConnection          patchCord86(playFlashRaw3, 0, mixer2, 2);
+AudioConnection          patchCord87(playFlashRaw2, 0, mixer2, 1);
+AudioConnection          patchCord88(playFlashRaw5, 0, mixer3, 0);
+AudioConnection          patchCord89(playFlashRaw8, 0, mixer3, 3);
+AudioConnection          patchCord90(playFlashRaw1, 0, mixer2, 0);
+AudioConnection          patchCord91(playFlashRaw4, 0, mixer2, 3);
+AudioConnection          patchCord92(last4premix, 0, mainOutMixer, 1);
+AudioConnection          patchCord93(first4premix, 0, mainOutMixer, 0);
+AudioConnection          patchCord94(mixer2, 0, mixer4, 0);
+AudioConnection          patchCord95(mixer3, 0, mixer4, 1);
+AudioConnection          patchCord96(mixer4, bitcrusher1);
+AudioConnection          patchCord97(bitcrusher1, 0, mainOutMixer, 2);
+AudioConnection          patchCord98(delayFilter, 0, mainOutMixer, 3);
+AudioConnection          patchCord99(mainOutMixer, 0, i2s1, 0);
+AudioConnection          patchCord100(mainOutMixer, 0, i2s1, 1);
+AudioConnection          patchCord101(mainOutMixer, delay1);
+AudioConnection          patchCord102(delay1, 0, delayFilter, 0);
+AudioControlSGTL5000     sgtl5000_1;     //xy=2393,919
 // GUItool: end automatically generated code
+
+
 
 
 // *************************************************************************************************************
@@ -282,30 +312,41 @@ DebounceButton noteFive = DebounceButton(BTN_PIN_4, DBTN_PULLUP_INTERNAL, 10, 8,
 DebounceButton noteSix = DebounceButton(BTN_PIN_5, DBTN_PULLUP_INTERNAL, 10, 8, 8);
 DebounceButton noteSeven = DebounceButton(BTN_PIN_6, DBTN_PULLUP_INTERNAL, 10, 8, 8);
 DebounceButton noteEight = DebounceButton(BTN_PIN_7, DBTN_PULLUP_INTERNAL, 10, 8, 8);
-//DebounceButton modeToggle = DebounceButton(MODE_TOGGLE_PIN, DBTN_PULLUP_INTERNAL, 20, 2000);
-
 
 int colorIndex = 0;
 int keyIndex = 0;
 
-
-
-
 float noteFreq[7][8] = {
 
                          //5       1       6      2      7      3      8     4
-                         {329.63,220.00,369.99,246.94,415.30,277.18,440.00,293.66},
-                         {369.99,246.94,415.30,277.18,466.16,311.13,493.88,329.63},
-                         {392.00,261.63,440.00,293.66,493.88,329.63,523.25,349.23},
-                         {440.00,293.66,493.88,329.63,554.37,369.99,587.33,392.00},
-                         {493.88,329.63,554.37,369.99,622.25,415.30,659.25,440.00},
-                         {523.25,349.23,587.33,392.00,659.25,440.00,698.46,466.16},
-                         {587.33,392.00,659.25,440.00,739.99,493.88,783.99,523.25},
+                         {220.00,246.94,277.18,293.66,329.63,369.99,415.30,440.00},
+                         {246.94,277.18,311.13,329.63,369.99,415.30,466.16,493.88},
+                         {261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25},
+                         {293.66,329.63,369.99,392.00,440.00,493.88,554.37,587.33},
+                         {329.63,369.99,415.30,440.00,493.88,554.37,622.25,659.25},
+                         {349.23,392.00,440.00,466.16,523.25,587.33,659.25,698.46},
+                         {392.00,440.00,493.88,523.25,587.33,659.25,739.99,783.99},
                        };
 
 
 
+// Original pattern where notes were not linear
+//float noteFreq[7][8] = {
+//
+//                         //5       1       6      2      7      3      8     4
+//                         {329.63,220.00,369.99,246.94,415.30,277.18,440.00,293.66},
+//                         {369.99,246.94,415.30,277.18,466.16,311.13,493.88,329.63},
+//                         {392.00,261.63,440.00,293.66,493.88,329.63,523.25,349.23},
+//                         {440.00,293.66,493.88,329.63,554.37,369.99,587.33,392.00},
+//                         {493.88,329.63,554.37,369.99,622.25,415.30,659.25,440.00},
+//                         {523.25,349.23,587.33,392.00,659.25,440.00,698.46,466.16},
+//                         {587.33,392.00,659.25,440.00,739.99,493.88,783.99,523.25},
+//                       };
 
+
+
+
+const char *sampleNames[] = {"1TR_10.WAV", "1TR_16.WAV", "1TR_19.WAV", "1TR_21.WAV", "1TR_24.WAV", "1TR_46.WAV", "1TR_58.WAV", "1TR_59.WAV"};
 
 // Analog Inputs
 float potsMuxerValues[16];
@@ -384,6 +425,12 @@ int releaseTimeFilter;
 bool noteTrigFlag[8];
 unsigned long attackWait[8];
 
+
+// Bitcrusher
+int current_CrushBits = 16; //this defaults to passthrough.
+int current_SampleRate = 44100; // this defaults to passthrough.
+
+
 bool firstRunRead = true;
 
 
@@ -395,6 +442,12 @@ void setup() {
   Serial.begin(115200);
 #endif
 
+  SPI.setMOSI( 7 );   // MOSI_PIN for audio board
+  SPI.setSCK( 14 );   // SCK_PIN for audio board
+
+  if ( !SerialFlash.begin() )
+      Serial.println( "Unable to access SPI Flash chip" );
+
   AudioMemory(160);
   sgtl5000_1.enable();
   sgtl5000_1.volume(.7);
@@ -404,7 +457,6 @@ void setup() {
   initButtons();
 
   pinMode(ENVELOPE_SWITCH_PIN, INPUT_PULLUP);
-
 
   // Init Mixer
   first4premix.gain(0, .25);
@@ -449,6 +501,9 @@ void setup() {
 
   pinMode(BASS_BOOST_PIN, INPUT_PULLUP);
 
+  bitcrusher1.bits(current_CrushBits); 
+  bitcrusher1.sampleRate(current_SampleRate); 
+
   playChime(2);
 
 }
@@ -467,7 +522,7 @@ void loop() {
     DEBUG_PRINTS("\nToggle Mode Button Pressed.");
     if (currentMode == 0) currentMode = 1;
     else if (currentMode == 1) currentMode = 0;
-    delay(500);  // !! temporary debounce method
+    delay(75);  // !! temporary debounce method
   }
 
   if (currentMode == 0) {
@@ -481,7 +536,10 @@ void loop() {
   }
   else if (currentMode == 1) {
     // Operate Drum machine mode
-    // do drum stuff yo
+    envelopeFilter = digitalRead(ENVELOPE_SWITCH_PIN);
+    processPotsMuxerValues_DrumMode();
+    processPotsDirectValues_DrumMode();
+    
   }
   firstRunRead = false;
 }
