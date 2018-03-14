@@ -1,5 +1,3 @@
-
-
 void initLEDs() {
   // Commented out for LED tests to secondary Teensy
   // pinMode(LED_RED_PIN, OUTPUT);
@@ -110,6 +108,46 @@ int readMuxer(int channel) {
   return val;
 }
 
+
+void readPots() {
+  // Read potentiometers via muxer
+  for (int i = 0; i < 16; i ++) {
+
+    // Reverse the readings (pots installed inverted)
+    potValues[i] = (1023 - readMuxer(i));
+
+    switch (currentMode) {
+      case 0:
+        processPotsSynth(i);
+        break;
+      case 1:
+        processPotsDrums(i);
+        break;
+    }
+  }
+
+  // Read potentiometers via direct pins
+  for (int i = 16; i < 21; i++) {
+
+    // Reverse the readings (pots installed inverted)
+    potValues[i] = (1023 - getSmooth(potDirectPins[i]));
+
+    switch (currentMode) {
+      case 0:
+        processPotsSynth(i);
+        break;
+      case 1:
+        processPotsDrums(i);
+        break;
+    }
+  }
+}
+
+boolean checkValueChange(int pot, int changeThresh) {
+  if (abs(potValues[pot] - potValuesPrevious[pot]) > changeThresh || firstRunRead) return true;
+  else return false;
+}
+
 void setVolumes() {
   mainVolume = analogRead(VOLUME_PIN);
   mainVolume = mainVolume / 1023;
@@ -181,7 +219,7 @@ int getSmooth(int pin) {
   return smooth;
 }
 
-void onPressNote0(DebounceButton* btn) {
+void onPressNote0(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(0);
@@ -192,7 +230,7 @@ void onPressNote0(DebounceButton* btn) {
   }
 }
 
-void onHoldNote0(DebounceButton* btn) {
+void onHoldNote0(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(0);
@@ -202,7 +240,7 @@ void onHoldNote0(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote0(DebounceButton* btn) {
+void onReleaseNote0(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(0);
@@ -212,7 +250,7 @@ void onReleaseNote0(DebounceButton* btn) {
       break;
   }
 }
-void onPressNote1(DebounceButton* btn) {
+void onPressNote1(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(1);
@@ -222,7 +260,7 @@ void onPressNote1(DebounceButton* btn) {
       break;
   }
 }
-void onHoldNote1(DebounceButton* btn) {
+void onHoldNote1(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(1);
@@ -232,7 +270,7 @@ void onHoldNote1(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote1(DebounceButton* btn) {
+void onReleaseNote1(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(1);
@@ -242,7 +280,7 @@ void onReleaseNote1(DebounceButton* btn) {
       break;
   }
 }
-void onPressNote2(DebounceButton* btn) {
+void onPressNote2(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(2);
@@ -252,7 +290,7 @@ void onPressNote2(DebounceButton* btn) {
       break;
   }
 }
-void onHoldNote2(DebounceButton* btn) {
+void onHoldNote2(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(2);
@@ -262,7 +300,7 @@ void onHoldNote2(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote2(DebounceButton* btn) {
+void onReleaseNote2(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(2);
@@ -272,7 +310,7 @@ void onReleaseNote2(DebounceButton* btn) {
       break;
   }
 }
-void onPressNote3(DebounceButton* btn) {
+void onPressNote3(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(3);
@@ -282,7 +320,7 @@ void onPressNote3(DebounceButton* btn) {
       break;
   }
 }
-void onHoldNote3(DebounceButton* btn) {
+void onHoldNote3(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(3);
@@ -292,7 +330,7 @@ void onHoldNote3(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote3(DebounceButton* btn) {
+void onReleaseNote3(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(3);
@@ -302,7 +340,7 @@ void onReleaseNote3(DebounceButton* btn) {
       break;
   }
 }
-void onPressNote4(DebounceButton* btn) {
+void onPressNote4(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(4);
@@ -312,7 +350,7 @@ void onPressNote4(DebounceButton* btn) {
       break;
   }
 }
-void onHoldNote4(DebounceButton* btn) {
+void onHoldNote4(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(4);
@@ -322,7 +360,7 @@ void onHoldNote4(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote4(DebounceButton* btn) {
+void onReleaseNote4(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(4);
@@ -332,7 +370,7 @@ void onReleaseNote4(DebounceButton* btn) {
       break;
   }
 }
-void onPressNote5(DebounceButton* btn) {
+void onPressNote5(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(5);
@@ -342,7 +380,7 @@ void onPressNote5(DebounceButton* btn) {
       break;
   }
 }
-void onHoldNote5(DebounceButton* btn) {
+void onHoldNote5(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(5);
@@ -352,7 +390,7 @@ void onHoldNote5(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote5(DebounceButton* btn) {
+void onReleaseNote5(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(5);
@@ -362,7 +400,7 @@ void onReleaseNote5(DebounceButton* btn) {
       break;
   }
 }
-void onPressNote6(DebounceButton* btn) {
+void onPressNote6(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(6);
@@ -372,7 +410,7 @@ void onPressNote6(DebounceButton* btn) {
       break;
   }
 }
-void onHoldNote6(DebounceButton* btn) {
+void onHoldNote6(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(6);
@@ -382,7 +420,7 @@ void onHoldNote6(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote6(DebounceButton* btn) {
+void onReleaseNote6(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(6);
@@ -392,7 +430,7 @@ void onReleaseNote6(DebounceButton* btn) {
       break;
   }
 }
-void onPressNote7(DebounceButton* btn) {
+void onPressNote7(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onPressSynth(7);
@@ -402,7 +440,7 @@ void onPressNote7(DebounceButton* btn) {
       break;
   }
 }
-void onHoldNote7(DebounceButton* btn) {
+void onHoldNote7(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onHoldSynth(7);
@@ -412,7 +450,7 @@ void onHoldNote7(DebounceButton* btn) {
       break;
   }
 }
-void onReleaseNote7(DebounceButton* btn) {
+void onReleaseNote7(DebounceButton * btn) {
   switch (currentMode) {
     case 0:
       onReleaseSynth(7);

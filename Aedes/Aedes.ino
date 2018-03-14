@@ -346,12 +346,15 @@ float noteFreq[7][8] = {
 const char *sampleNames[] = {"1TR_10.WAV", "1TR_16.WAV", "1TR_19.WAV", "1TR_21.WAV", "1TR_24.WAV", "1TR_46.WAV", "1TR_58.WAV", "1TR_59.WAV"};
 
 // Analog Inputs
-float potsMuxerValues[16];
-float potsMuxerValuesPrevious[16];
+float potValues[21];
+float potValuesPrevious[21];
 
-int potsDirectPins[5] = {OCTAVE_PIN,ENVELOPE_ATTACK_PIN,ENVELOPE_DECAY_PIN,ENVELOPE_SUSTAIN_PIN,ENVELOPE_RELEASE_PIN};
-float potsDirectValues[5];
-float potsDirectValuesPrevious[5];
+//float potsMuxerValues[16];
+//float potsMuxerValuesPrevious[16];
+
+int potDirectPins[5] = {OCTAVE_PIN,ENVELOPE_ATTACK_PIN,ENVELOPE_DECAY_PIN,ENVELOPE_SUSTAIN_PIN,ENVELOPE_RELEASE_PIN};
+//float potsDirectValues[5];
+//float potsDirectValuesPrevious[5];
 int changeThresh;
 int extraChangeThresh;
 
@@ -514,38 +517,28 @@ void loop() {
 
   setVolumes();
   DebounceButton::updateAll();
+  envelopeFilter = digitalRead(ENVELOPE_SWITCH_PIN);
+  readPots();
 
   if (analogRead(MODE_TOGGLE_PIN) < 200) {
     DEBUG_PRINTS("\nToggle Mode Button Pressed.");
     if (currentMode == 0) currentMode = 1;
     else if (currentMode == 1) currentMode = 0;
-    delay(75);  // !! temporary debounce method
+    delay(150);  // !! temporary debounce method
   }
 
   if (currentMode == 0) {
     // Operate Synth mode
-    envelopeFilter = digitalRead(ENVELOPE_SWITCH_PIN);
     defineNotes();
-
-    processPotsMuxerValues_SynthMode();
-    processPotsDirectValues_SynthMode();
     peakProcessing_SynthMode();
   }
   else if (currentMode == 1) {
     // Operate Drum machine mode
-    envelopeFilter = digitalRead(ENVELOPE_SWITCH_PIN);
-    processPotsMuxerValues_DrumMode();
-    processPotsDirectValues_DrumMode();
-    
   }
 
   DEBUG_PRINT("\n\t DIAGNOSTICS - CPU: ", AudioProcessorUsageMax());
   DEBUG_PRINT("Memory: ", AudioMemoryUsageMax());
   AudioProcessorUsageMaxReset();
 
-  
   firstRunRead = false;
-
-
-  
 }

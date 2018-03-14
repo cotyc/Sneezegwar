@@ -1,32 +1,21 @@
 
 
-void processPotsMuxerValues_SynthMode() {
-  // Read potentiometers via muxer
-  for (int i = 0; i < 16; i ++) {
 
-    // Reverse the readings (pots installed inverted)
-    potsMuxerValues[i] = (1023-readMuxer(i));
-
-    if (i == 1 || i == 4) {  // Threshold for VCO shapes
-      changeThresh = 250;
-    } else if (i == 8)       // Threshold for LFO shape
-      changeThresh = 200;
-    else {
-      changeThresh = 5;     // Threshold for all others
-    }
-
-    if (abs(potsMuxerValues[i] - potsMuxerValuesPrevious[i]) > changeThresh || firstRunRead) {
-      // VCO 1
-      if (i == 0) {
-        // VCO 1 Octave
-        octOneIndex = (potsMuxerValues[i] / 204) + 1;
+void processPotsSynth(int pot) {
+  switch (pot) {
+    case 0:
+      // VCO 1 Octave
+      if (checkValueChange(pot, changeThresh)) {
+        octOneIndex = (potValues[pot] / 204) + 1;
         if (octOneIndex < 6) {
           vcoOneOct = octArray[octOneIndex];
         }
       }
-      if (i == 1) {
-        // VCO 1 Shape
-        waveShapeOneIndex = potsMuxerValues[i] / 255;
+      break;
+    case 1:
+      // VCO 1 Shape
+      if (checkValueChange(pot, 250)) {     // Threshold for VCO shape is 250
+        waveShapeOneIndex = potValues[pot] / 255;
         if (waveShapeOneIndex < 4) {
           voice1a.begin(waveShapes[waveShapeOneIndex]);
           voice2a.begin(waveShapes[waveShapeOneIndex]);
@@ -38,10 +27,12 @@ void processPotsMuxerValues_SynthMode() {
           voice8a.begin(waveShapes[waveShapeOneIndex]);
         }
       }
-      if (i == 2) {
-        //VCO 1 Mix
-        vcoOneLevel = (potsMuxerValues[i]) / 1023;
-        vcoTwoLevel = 1 - (potsMuxerValues[i]) / 1023;
+      break;
+    case 2:
+      //VCO 1 Mix
+      if (checkValueChange(pot, 5)) {
+        vcoOneLevel = (potValues[pot]) / 1023;
+        vcoTwoLevel = 1 - (potValues[pot]) / 1023;
         voice1mix.gain(1, vcoOneLevel);
         voice1mix.gain(0, vcoTwoLevel);
         voice2mix.gain(1, vcoOneLevel);
@@ -59,17 +50,20 @@ void processPotsMuxerValues_SynthMode() {
         voice8mix.gain(1, vcoOneLevel);
         voice8mix.gain(0, vcoTwoLevel);
       }
-      // VCO 2
-      if (i == 3) {
-        // VCO 2 Octave
-        octTwoIndex = (potsMuxerValues[i] / 204) + 1;
+      break;
+    case 3:
+      // VCO 2 Octave
+      if (checkValueChange(pot, 5)) {
+        octTwoIndex = (potValues[pot] / 204) + 1;
         if (octTwoIndex < 6) {
           vcoTwoOct = octArray[octTwoIndex];
         }
       }
-      if (i == 4) {
-        // VCO 2 Shape
-        waveShapeTwoIndex = potsMuxerValues[i] / 255;
+      break;
+    case 4:
+      // VCO 2 Shape
+      if (checkValueChange(pot, 250)) {      // Threshold for VCO shape is 250
+        waveShapeTwoIndex = potValues[pot] / 255;
         if (waveShapeTwoIndex < 4) {
           if (waveShapeTwoIndex == 3) {
             voiceBPulse = true;
@@ -86,114 +80,118 @@ void processPotsMuxerValues_SynthMode() {
           voice8b.begin(waveShapes[waveShapeTwoIndex]);
         }
       }
-      if (i == 5) {
-        // VCO 2 Detune
-        deTune = potsMuxerValues[i];
+      break;
+    case 5:
+      // VCO 2 Detune
+      if (checkValueChange(pot, 5)) {
+        deTune = potValues[pot];
         deTune = mapfloat(deTune, 0, 1023, .875, 1.125);
       }
+      break;
+    case 6:
       // PulseWith / Mod
-      if (i == 6) {
-        tempPulseWidth = 1 - (potsMuxerValues[i] / 1023);
-        tempDetuneMod = potsMuxerValues[i] / 2046;
+      if (checkValueChange(pot, 5)) {
+        tempPulseWidth = 1 - (potValues[pot] / 1023);
+        tempDetuneMod = potValues[pot] / 2046;
       }
-      // LFO
-      if (i == 7) {
-        // LFO Frequency
-        lfo.frequency(potsMuxerValues[i] / 50);
+      break;
+    case 7:
+      // LFO Frequency
+      if (checkValueChange(pot, 5)) {
+        lfo.frequency(potValues[pot] / 50);
       }
-      if (i == 8) {
-        // LFO Shape
-        lfoWaveShapeIndex = potsMuxerValues[i] / 204.6;
+      break;
+    case 8:
+      // LFO Shape
+      if (checkValueChange(pot, 200)) {        // Threshold for LFO shape is 200
+        lfoWaveShapeIndex = potValues[pot] / 204.6;
         if (lfoWaveShapeIndex < 5) {
           lfo.begin(lfoWaveShapes[lfoWaveShapeIndex]);
           DEBUG_PRINT("\nLFO Wave Shape: ", lfoWaveShapeIndex);
         }
       }
-      if (i == 9) {
-        // LFO Noise
-        voice1n.amplitude(potsMuxerValues[i] / 3096);
-        voice2n.amplitude(potsMuxerValues[i] / 3096);
-        voice3n.amplitude(potsMuxerValues[i] / 3096);
-        voice4n.amplitude(potsMuxerValues[i] / 3096);
-        voice5n.amplitude(potsMuxerValues[i] / 3096);
-        voice6n.amplitude(potsMuxerValues[i] / 3096);
-        voice7n.amplitude(potsMuxerValues[i] / 3096);
-        voice8n.amplitude(potsMuxerValues[i] / 3096);
+      break;
+    case 9:
+      // LFO Noise
+      if (checkValueChange(pot, 5)) {
+        voice1n.amplitude(potValues[pot] / 3096);
+        voice2n.amplitude(potValues[pot] / 3096);
+        voice3n.amplitude(potValues[pot] / 3096);
+        voice4n.amplitude(potValues[pot] / 3096);
+        voice5n.amplitude(potValues[pot] / 3096);
+        voice6n.amplitude(potValues[pot] / 3096);
+        voice7n.amplitude(potValues[pot] / 3096);
+        voice8n.amplitude(potValues[pot] / 3096);
       }
-      // Delay
-      if (i == 10) {
-        // Delay Time
-        delay1.delay(0, potsMuxerValues[i] / 2.4);
+      break;
+    case 10:
+      // Delay Time
+      if (checkValueChange(pot, 5)) {
+        delay1.delay(0, potValues[pot] / 2.4);
       }
-      if (i == 11) {
-        // Delay Feedback
-        mainOutMixer.gain(3, potsMuxerValues[i] / 1023);
+      break;
+    case 11:
+      // Delay Feedback
+      if (checkValueChange(pot, 5)) {
+        mainOutMixer.gain(3, potValues[pot] / 1023);
       }
-      // Filter
-      if (i == 12) {
-        // Filter Cutoff
-        voice1filter.frequency(potsMuxerValues[i] * 10);
-        voice2filter.frequency(potsMuxerValues[i] * 10);
-        voice3filter.frequency(potsMuxerValues[i] * 10);
-        voice4filter.frequency(potsMuxerValues[i] * 10);
-        voice5filter.frequency(potsMuxerValues[i] * 10);
-        voice6filter.frequency(potsMuxerValues[i] * 10);
-        voice7filter.frequency(potsMuxerValues[i] * 10);
-        voice8filter.frequency(potsMuxerValues[i] * 10);
+      break;
+    case 12:
+      // Filter Cutoff
+      if (checkValueChange(pot, 5)) {
+        voice1filter.frequency(potValues[pot] * 10);
+        voice2filter.frequency(potValues[pot] * 10);
+        voice3filter.frequency(potValues[pot] * 10);
+        voice4filter.frequency(potValues[pot] * 10);
+        voice5filter.frequency(potValues[pot] * 10);
+        voice6filter.frequency(potValues[pot] * 10);
+        voice7filter.frequency(potValues[pot] * 10);
+        voice8filter.frequency(potValues[pot] * 10);
       }
-      if (i == 13) {
-        // Filter Resonance
-        voice1filter.resonance((potsMuxerValues[i] / 204) + .9);
-        voice2filter.resonance((potsMuxerValues[i] / 204) + .9);
-        voice3filter.resonance((potsMuxerValues[i] / 204) + .9);
-        voice4filter.resonance((potsMuxerValues[i] / 204) + .9);
-        voice5filter.resonance((potsMuxerValues[i] / 204) + .9);
-        voice6filter.resonance((potsMuxerValues[i] / 204) + .9);
-        voice7filter.resonance((potsMuxerValues[i] / 204) + .9);
-        voice8filter.resonance((potsMuxerValues[i] / 204) + .9);
+      break;
+    case 13:
+      // Filter Resonance
+      if (checkValueChange(pot, 5)) {
+        voice1filter.resonance((potValues[pot] / 204) + .9);
+        voice2filter.resonance((potValues[pot] / 204) + .9);
+        voice3filter.resonance((potValues[pot] / 204) + .9);
+        voice4filter.resonance((potValues[pot] / 204) + .9);
+        voice5filter.resonance((potValues[pot] / 204) + .9);
+        voice6filter.resonance((potValues[pot] / 204) + .9);
+        voice7filter.resonance((potValues[pot] / 204) + .9);
+        voice8filter.resonance((potValues[pot] / 204) + .9);
       }
-      if (i == 14) {
-        // Filter LFO Mix
-        voice1filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
-        voice2filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
-        voice3filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
-        voice4filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
-        voice5filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
-        voice6filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
-        voice7filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
-        voice8filtermodmixer.gain(1, potsMuxerValues[i] / 1023);
+      break;
+    case 14:
+      // Filter LFO Mix
+      if (checkValueChange(pot, 5)) {
+        voice1filtermodmixer.gain(1, potValues[pot] / 1023);
+        voice2filtermodmixer.gain(1, potValues[pot] / 1023);
+        voice3filtermodmixer.gain(1, potValues[pot] / 1023);
+        voice4filtermodmixer.gain(1, potValues[pot] / 1023);
+        voice5filtermodmixer.gain(1, potValues[pot] / 1023);
+        voice6filtermodmixer.gain(1, potValues[pot] / 1023);
+        voice7filtermodmixer.gain(1, potValues[pot] / 1023);
+        voice8filtermodmixer.gain(1, potValues[pot] / 1023);
       }
-      if (i == 15) {
-        // Filter Filter Mix
-        voice1filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
-        voice2filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
-        voice3filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
-        voice4filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
-        voice5filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
-        voice6filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
-        voice7filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
-        voice8filtermodmixer.gain(0, potsMuxerValues[i] / 1023);
+      break;
+    case 15:
+      // Filter Filter Mix
+      if (checkValueChange(pot, 5)) {
+        voice1filtermodmixer.gain(0, potValues[pot] / 1023);
+        voice2filtermodmixer.gain(0, potValues[pot] / 1023);
+        voice3filtermodmixer.gain(0, potValues[pot] / 1023);
+        voice4filtermodmixer.gain(0, potValues[pot] / 1023);
+        voice5filtermodmixer.gain(0, potValues[pot] / 1023);
+        voice6filtermodmixer.gain(0, potValues[pot] / 1023);
+        voice7filtermodmixer.gain(0, potValues[pot] / 1023);
+        voice8filtermodmixer.gain(0, potValues[pot] / 1023);
       }
-      potsMuxerValuesPrevious[i] = potsMuxerValues[i];
-    }
-  }
-}
-
-void processPotsDirectValues_SynthMode() {
-  for (int i = 0; i < 5; i++) {
-
-    // Reverse the readings (pots installed inverted)
-    potsDirectValues[i] = (1023-getSmooth(potsDirectPins[i]));
-
-    if (i == 0) {
-      extraChangeThresh = 144;  // Threshold for Octave (key) changes
-    } else {
-      extraChangeThresh = 1;  // Threshold for everything else
-    }
-    if (abs(potsDirectValues[i] - potsDirectValuesPrevious[i]) > extraChangeThresh || firstRunRead) {
-      if (i == 0) {
-        // Octave - key of notes
-        colorIndex = potsDirectValues[i] / 146;
+      break;
+    case 16:    // End Muxer pot values and start direct pot values
+      // Octave - key of notes    
+      if (checkValueChange(pot, 144)) {        // Threshold for Octave (key) changes is 144
+        colorIndex = potValues[pot] / 146;
         if (colorIndex < 7) {
           keyIndex = colorIndex;
           redLevel = redLevelArray[colorIndex];
@@ -201,64 +199,82 @@ void processPotsDirectValues_SynthMode() {
           greenLevel = greenLevelArray[colorIndex];
         }
       }
-      if (i == 1) {
-        // Envelope Controls - Attack
+      break;
+    case 17:
+      // Envelope Controls - Attack
+      if (checkValueChange(pot, 1)) {
+
         if (firstRunRead) {
-          attackTimeFilter = potsDirectValues[i] * 2;
-          attackTime = potsDirectValues[i] * 2;
+          attackTimeFilter = potValues[pot] * 2;
+          attackTime = potValues[pot] * 2;
         }
         if (envelopeFilter == HIGH) {
-          current_CrushBits = map(potsDirectValues[i], 0, 1023, 16, 2);
+          current_CrushBits = map(potValues[pot], 0, 1023, 16, 2);
           bitcrusher1.bits(current_CrushBits);
-          // attackTimeFilter = potsDirectValues[i] * 2;
+          // attackTimeFilter = potValues[pot] * 2;
         } else {
-          attackTime = potsDirectValues[i] * 2;
+          attackTime = potValues[pot] * 2;
         }
+
       }
-      if (i == 2) {
-        // Envelope Controls - Decay
+      break;
+    case 18:
+      // Envelope Controls - Decay
+      if (checkValueChange(pot, 1)) {
+
         if (firstRunRead) {
-          decayTimeFilter = potsDirectValues[i];
-          decayTime = potsDirectValues[i];
+          decayTimeFilter = potValues[pot];
+          decayTime = potValues[pot];
         }
         if (envelopeFilter == HIGH) {
-          current_SampleRate = map(potsDirectValues[i], 0, 1023, 44100, 345);
+          current_SampleRate = map(potValues[pot], 0, 1023, 44100, 345);
           bitcrusher1.sampleRate(current_SampleRate);
-          // decayTimeFilter = potsDirectValues[i];
+          // decayTimeFilter = potValues[pot];
         } else {
-          decayTime = potsDirectValues[i];
+          decayTime = potValues[pot];
         }
       }
-      if (i == 3) {
-        // Envelope Controls - Sustain
+      break;
+    case 19:
+      // Envelope Controls - Sustain
+      if (checkValueChange(pot, 1)) {
+
         if (firstRunRead) {
-          sustainLevelFilter = potsDirectValues[i];
+          sustainLevelFilter = potValues[pot];
           sustainLevelFilter = mapfloat(sustainLevelFilter, 0, 1023, -1, 1);
-          sustainLevel = potsDirectValues[i] / 1023;
+          sustainLevel = potValues[pot] / 1023;
         }
         if (envelopeFilter == HIGH) {
-          sustainLevelFilter = potsDirectValues[i];
+          sustainLevelFilter = potValues[pot];
           sustainLevelFilter = mapfloat(sustainLevelFilter, 0, 1023, -1, 1);
         } else {
-          sustainLevel = potsDirectValues[i] / 1023;
+          sustainLevel = potValues[pot] / 1023;
         }
+
       }
-      if (i == 4) {
-        // Envelope Controls - Release
+      break;
+    case 20:
+      // Envelope Controls - Release
+      if (checkValueChange(pot, 1)) {
+
         if (firstRunRead) {
-          releaseTimeFilter = potsDirectValues[i] * 2;
-          releaseTime = potsDirectValues[i] * 2;
+          releaseTimeFilter = potValues[pot] * 2;
+          releaseTime = potValues[pot] * 2;
         }
         if (envelopeFilter == HIGH) {
-          releaseTimeFilter = potsDirectValues[i] * 2;
+          releaseTimeFilter = potValues[pot] * 2;
         } else {
-          releaseTime = potsDirectValues[i] * 2;
+          releaseTime = potValues[pot] * 2;
         }
+
       }
-      potsDirectValuesPrevious[i] = potsDirectValues[i];
-    }
+      break;
   }
+  potValuesPrevious[pot] = potValues[pot];
 }
+
+
+
 
 void defineNotes() {
   for (int i = 0; i < 8; i++) {
@@ -378,60 +394,60 @@ void onHoldSynth(int key) {
   DEBUG_PRINTS(" Held.");
   if (millis() - attackWait[key] > attackTime && noteTrigFlag[key]) {
     switch (key) {
-    case 0:
-      voice1env.amplitude(sustainLevel, decayTime);
-      break;
-    case 1:
-      voice2env.amplitude(sustainLevel, decayTime);
-      break;
-    case 2:
-      voice3env.amplitude(sustainLevel, decayTime);
-      break;
-    case 3:
-      voice4env.amplitude(sustainLevel, decayTime);
-      break;
-    case 4:
-      voice5env.amplitude(sustainLevel, decayTime);
-      break;
-    case 5:
-      voice6env.amplitude(sustainLevel, decayTime);
-      break;
-    case 6:
-      voice7env.amplitude(sustainLevel, decayTime);
-      break;
-    case 7:
-      voice8env.amplitude(sustainLevel, decayTime);
-      break;
-    } 
+      case 0:
+        voice1env.amplitude(sustainLevel, decayTime);
+        break;
+      case 1:
+        voice2env.amplitude(sustainLevel, decayTime);
+        break;
+      case 2:
+        voice3env.amplitude(sustainLevel, decayTime);
+        break;
+      case 3:
+        voice4env.amplitude(sustainLevel, decayTime);
+        break;
+      case 4:
+        voice5env.amplitude(sustainLevel, decayTime);
+        break;
+      case 5:
+        voice6env.amplitude(sustainLevel, decayTime);
+        break;
+      case 6:
+        voice7env.amplitude(sustainLevel, decayTime);
+        break;
+      case 7:
+        voice8env.amplitude(sustainLevel, decayTime);
+        break;
+    }
   }
 
   if (millis() - attackWait[key] > attackTimeFilter && noteTrigFlag[key]) {
     switch (key) {
-    case 0:
-      voice1filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    case 1:
-      voice2filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    case 2:
-      voice3filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    case 3:
-      voice4filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    case 4:
-      voice5filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    case 5:
-      voice6filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    case 6:
-      voice7filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    case 7:
-      voice8filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-      break;
-    } 
+      case 0:
+        voice1filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+      case 1:
+        voice2filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+      case 2:
+        voice3filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+      case 3:
+        voice4filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+      case 4:
+        voice5filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+      case 5:
+        voice6filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+      case 6:
+        voice7filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+      case 7:
+        voice8filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+        break;
+    }
   }
 }
 
