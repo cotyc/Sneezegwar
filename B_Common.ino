@@ -38,37 +38,37 @@ void initMultiplexor() {
 }
 
 void initButtons() {
-  noteOne.onPress = onPressNoteOne;
-  noteOne.onHold = onHoldNoteOne;
-  noteOne.onRelease = onReleaseNoteOne;
+  note0.onPress = onPressNote0;
+  note0.onHold = onHoldNote0;
+  note0.onRelease = onReleaseNote0;
 
-  noteTwo.onPress = onPressNoteTwo;
-  noteTwo.onHold = onHoldNoteTwo;
-  noteTwo.onRelease = onReleaseNoteTwo;
+  note1.onPress = onPressNote1;
+  note1.onHold = onHoldNote1;
+  note1.onRelease = onReleaseNote1;
 
-  noteThree.onPress = onPressNoteThree;
-  noteThree.onHold = onHoldNoteThree;
-  noteThree.onRelease = onReleaseNoteThree;
+  note2.onPress = onPressNote2;
+  note2.onHold = onHoldNote2;
+  note2.onRelease = onReleaseNote2;
 
-  noteFour.onPress = onPressNoteFour;
-  noteFour.onHold = onHoldNoteFour;
-  noteFour.onRelease = onReleaseNoteFour;
+  note3.onPress = onPressNote3;
+  note3.onHold = onHoldNote3;
+  note3.onRelease = onReleaseNote3;
 
-  noteFive.onPress = onPressNoteFive;
-  noteFive.onHold = onHoldNoteFive;
-  noteFive.onRelease = onReleaseNoteFive;
+  note4.onPress = onPressNote4;
+  note4.onHold = onHoldNote4;
+  note4.onRelease = onReleaseNote4;
 
-  noteSix.onPress = onPressNoteSix;
-  noteSix.onHold = onHoldNoteSix;
-  noteSix.onRelease = onReleaseNoteSix;
+  note5.onPress = onPressNote5;
+  note5.onHold = onHoldNote5;
+  note5.onRelease = onReleaseNote5;
 
-  noteSeven.onPress = onPressNoteSeven;
-  noteSeven.onHold = onHoldNoteSeven;
-  noteSeven.onRelease = onReleaseNoteSeven;
+  note6.onPress = onPressNote6;
+  note6.onHold = onHoldNote6;
+  note6.onRelease = onReleaseNote6;
 
-  noteEight.onPress = onPressNoteEight;
-  noteEight.onHold = onHoldNoteEight;
-  noteEight.onRelease = onReleaseNoteEight;
+  note7.onPress = onPressNote7;
+  note7.onHold = onHoldNote7;
+  note7.onRelease = onReleaseNote7;
 
   //  modeToggle.onPress = onPressModeToggle;       // fires when pressed
   //  modeToggle.onRelease = onReleaseModeToggle;   // fires everytime it's released
@@ -181,333 +181,246 @@ int getSmooth(int pin) {
   return smooth;
 }
 
-void onPressNoteOne(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 1 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice1env.amplitude(1, attackTime);
-    voice1filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[0] = true;
-    attackWait[0] = millis();
+void onPressNote0(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(0);
+      break;
+    case 1:
+      onPressDrum(0);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw1.play(sampleNames[4]);
-
-}
-}
-void onHoldNoteOne(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 1 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[0] > attackTime && noteTrigFlag[0]) {
-      voice1env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[0] > attackTimeFilter && noteTrigFlag[0]) {
-      voice1filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
-  }
-  else if (currentMode == 1) {
-  // drum
-}
-}
-void onReleaseNoteOne(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[0] = false;
-    voice1env.amplitude(0, releaseTime);
-    voice1filterenv.amplitude(-1, releaseTimeFilter);
-  }
-  else if (currentMode == 1) {
-  // drum
-}
 }
 
-void onPressNoteTwo(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 2 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice2env.amplitude(1, attackTime);
-    voice2filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[1] = true;
-    attackWait[1] = millis();
+void onHoldNote0(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(0);
+      break;
+    case 1:
+      onHoldDrum(0);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw2.play(sampleNames[3]);
 }
-}
-void onHoldNoteTwo(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 2 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[1] > attackTime && noteTrigFlag[1]) {
-      voice2env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[1] > attackTimeFilter && noteTrigFlag[1]) {
-      voice2filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
+void onReleaseNote0(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(0);
+      break;
+    case 1:
+      onReleaseDrum(0);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-void onReleaseNoteTwo(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[1] = false;
-    voice2env.amplitude(0, releaseTime);
-    voice2filterenv.amplitude(-1, releaseTimeFilter);
+void onPressNote1(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(1);
+      break;
+    case 1:
+      onPressDrum(1);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-
-void onPressNoteThree(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 3 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice3env.amplitude(1, attackTime);
-    voice3filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[2] = true;
-    attackWait[2] = millis();
+void onHoldNote1(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(1);
+      break;
+    case 1:
+      onHoldDrum(1);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw3.play(sampleNames[2]);
 }
-}
-void onHoldNoteThree(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 3 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[2] > attackTime && noteTrigFlag[2]) {
-      voice3env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[2] > attackTimeFilter && noteTrigFlag[2]) {
-      voice3filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
+void onReleaseNote1(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(1);
+      break;
+    case 1:
+      onReleaseDrum(1);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-void onReleaseNoteThree(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[2] = false;
-    voice3env.amplitude(0, releaseTime);
-    voice3filterenv.amplitude(-1, releaseTimeFilter);
+void onPressNote2(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(2);
+      break;
+    case 1:
+      onPressDrum(2);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-
-void onPressNoteFour(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 4 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice4env.amplitude(1, attackTime);
-    voice4filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[3] = true;
-    attackWait[3] = millis();
+void onHoldNote2(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(2);
+      break;
+    case 1:
+      onHoldDrum(2);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw4.play(sampleNames[5]);
 }
-}
-void onHoldNoteFour(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 4 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[3] > attackTime && noteTrigFlag[3]) {
-      voice4env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[3] > attackTimeFilter && noteTrigFlag[3]) {
-      voice4filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
+void onReleaseNote2(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(2);
+      break;
+    case 1:
+      onReleaseDrum(2);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-void onReleaseNoteFour(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[3] = false;
-    voice4env.amplitude(0, releaseTime);
-    voice4filterenv.amplitude(-1, releaseTimeFilter);
+void onPressNote3(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(3);
+      break;
+    case 1:
+      onPressDrum(3);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-
-void onPressNoteFive(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 5 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice5env.amplitude(1, attackTime);
-    voice5filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[4] = true;
-    attackWait[4] = millis();
+void onHoldNote3(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(3);
+      break;
+    case 1:
+      onHoldDrum(3);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw5.play(sampleNames[0]);
 }
-}
-void onHoldNoteFive(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 5 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[4] > attackTime && noteTrigFlag[4]) {
-      voice5env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[4] > attackTimeFilter && noteTrigFlag[4]) {
-      voice5filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
+void onReleaseNote3(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(3);
+      break;
+    case 1:
+      onReleaseDrum(3);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-void onReleaseNoteFive(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[4] = false;
-    voice5env.amplitude(0, releaseTime);
-    voice5filterenv.amplitude(-1, releaseTimeFilter);
+void onPressNote4(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(4);
+      break;
+    case 1:
+      onPressDrum(4);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-
-void onPressNoteSix(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 6 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice6env.amplitude(1, attackTime);
-    voice6filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[5] = true;
-    attackWait[5] = millis();
+void onHoldNote4(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(4);
+      break;
+    case 1:
+      onHoldDrum(4);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw6.play(sampleNames[1]);
 }
-}
-void onHoldNoteSix(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 6 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[5] > attackTime && noteTrigFlag[5]) {
-      voice6env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[5] > attackTimeFilter && noteTrigFlag[5]) {
-      voice6filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
+void onReleaseNote4(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(4);
+      break;
+    case 1:
+      onReleaseDrum(4);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-void onReleaseNoteSix(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[5] = false;
-    voice6env.amplitude(0, releaseTime);
-    voice6filterenv.amplitude(-1, releaseTimeFilter);
+void onPressNote5(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(5);
+      break;
+    case 1:
+      onPressDrum(5);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-
-void onPressNoteSeven(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 7 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice7env.amplitude(1, attackTime);
-    voice7filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[6] = true;
-    attackWait[6] = millis();
+void onHoldNote5(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(5);
+      break;
+    case 1:
+      onHoldDrum(5);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw7.play(sampleNames[6]);
 }
-}
-void onHoldNoteSeven(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 7 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[6] > attackTime && noteTrigFlag[6]) {
-      voice7env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[6] > attackTimeFilter && noteTrigFlag[6]) {
-      voice7filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
+void onReleaseNote5(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(5);
+      break;
+    case 1:
+      onReleaseDrum(5);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-void onReleaseNoteSeven(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[6] = false;
-    voice7env.amplitude(0, releaseTime);
-    voice7filterenv.amplitude(-1, releaseTimeFilter);
+void onPressNote6(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(6);
+      break;
+    case 1:
+      onPressDrum(6);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-
-void onPressNoteEight(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 8 Pressed.");
-  if (currentMode == 0) {
-    // synth
-    voice8env.amplitude(1, attackTime);
-    voice8filterenv.amplitude(1, attackTimeFilter);
-    noteTrigFlag[7] = true;
-    attackWait[7] = millis();
+void onHoldNote6(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(6);
+      break;
+    case 1:
+      onHoldDrum(6);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
-  playFlashRaw8.play(sampleNames[7]);
 }
-}
-void onHoldNoteEight(DebounceButton* btn) {
-  DEBUG_PRINTS("\nButton 8 Held.");
-  if (currentMode == 0) {
-    // synth
-    if (millis() - attackWait[7] > attackTime && noteTrigFlag[7]) {
-      voice8env.amplitude(sustainLevel, decayTime);
-    }
-    if (millis() - attackWait[7] > attackTimeFilter && noteTrigFlag[7]) {
-      voice8filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
-    }
+void onReleaseNote6(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(6);
+      break;
+    case 1:
+      onReleaseDrum(6);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
-}
-void onReleaseNoteEight(DebounceButton* btn) {
-  if (currentMode == 0) {
-    // synth
-    noteTrigFlag[7] = false;
-    voice8env.amplitude(0, releaseTime);
-    voice8filterenv.amplitude(-1, releaseTimeFilter);
+void onPressNote7(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onPressSynth(7);
+      break;
+    case 1:
+      onPressDrum(7);
+      break;
   }
-  else if (currentMode == 1) {
-  // drum
 }
+void onHoldNote7(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onHoldSynth(7);
+      break;
+    case 1:
+      onHoldDrum(7);
+      break;
+  }
+}
+void onReleaseNote7(DebounceButton* btn) {
+  switch (currentMode) {
+    case 0:
+      onReleaseSynth(7);
+      break;
+    case 1:
+      onReleaseDrum(7);
+      break;
+  }
 }
 
 

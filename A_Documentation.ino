@@ -12,9 +12,6 @@ Noise reference - http://openaudio.blogspot.com/2017/03/teensy-audio-board-self-
 TO DO LIST
 ==================================
     Delay time exceeds memory limits? adjust memory allocation or limit range of delay time
-    Create drum sounds for better testing
-    Enable delay time and delay feedback pots in drum mode
-    Change order of notes?
     Buttons not yet implemented:
       MODE_LED_PIN A14 (turn LED on when in drum mode - not working)
       OUTPUT_SELECT_PIN (switch to change audio output - not an option?)
@@ -26,7 +23,6 @@ TO DO LIST
     Replace power jack with the correct size, laser cut new side peice without the lineout option
     map volume pot so it is log and not linear
     map volume pot so it effects line out down to zero?
-    Start implementing drum machine mode
 
 
 

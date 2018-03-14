@@ -208,7 +208,9 @@ void processPotsDirectValues_SynthMode() {
           attackTime = potsDirectValues[i] * 2;
         }
         if (envelopeFilter == HIGH) {
-          attackTimeFilter = potsDirectValues[i] * 2;
+          current_CrushBits = map(potsDirectValues[i], 0, 1023, 16, 2);
+          bitcrusher1.bits(current_CrushBits);
+          // attackTimeFilter = potsDirectValues[i] * 2;
         } else {
           attackTime = potsDirectValues[i] * 2;
         }
@@ -220,7 +222,9 @@ void processPotsDirectValues_SynthMode() {
           decayTime = potsDirectValues[i];
         }
         if (envelopeFilter == HIGH) {
-          decayTimeFilter = potsDirectValues[i];
+          current_SampleRate = map(potsDirectValues[i], 0, 1023, 44100, 345);
+          bitcrusher1.sampleRate(current_SampleRate);
+          // decayTimeFilter = potsDirectValues[i];
         } else {
           decayTime = potsDirectValues[i];
         }
@@ -326,3 +330,155 @@ void peakProcessing_SynthMode() {
     //    DEBUG_PRINT("\nLFO Detune: ", deTuneLfo);
   }
 }
+
+
+void onPressSynth(int key) {
+  DEBUG_PRINT("\nButton ", key);
+  DEBUG_PRINTS(" Pressed");
+  switch (key) {
+    case 0:
+      voice1env.amplitude(1, attackTime);
+      voice1filterenv.amplitude(1, attackTimeFilter);
+      break;
+    case 1:
+      voice2env.amplitude(1, attackTime);
+      voice2filterenv.amplitude(1, attackTimeFilter);
+      break;
+    case 2:
+      voice3env.amplitude(1, attackTime);
+      voice3filterenv.amplitude(1, attackTimeFilter);
+      break;
+    case 3:
+      voice4env.amplitude(1, attackTime);
+      voice4filterenv.amplitude(1, attackTimeFilter);
+      break;
+    case 4:
+      voice5env.amplitude(1, attackTime);
+      voice5filterenv.amplitude(1, attackTimeFilter);
+      break;
+    case 5:
+      voice6env.amplitude(1, attackTime);
+      voice6filterenv.amplitude(1, attackTimeFilter);
+      break;
+    case 6:
+      voice7env.amplitude(1, attackTime);
+      voice7filterenv.amplitude(1, attackTimeFilter);
+      break;
+    case 7:
+      voice8env.amplitude(1, attackTime);
+      voice8filterenv.amplitude(1, attackTimeFilter);
+      break;
+  }
+  noteTrigFlag[key] = true;
+  attackWait[key] = millis();
+}
+
+void onHoldSynth(int key) {
+  DEBUG_PRINT("\nButton ", key);
+  DEBUG_PRINTS(" Held.");
+  if (millis() - attackWait[key] > attackTime && noteTrigFlag[key]) {
+    switch (key) {
+    case 0:
+      voice1env.amplitude(sustainLevel, decayTime);
+      break;
+    case 1:
+      voice2env.amplitude(sustainLevel, decayTime);
+      break;
+    case 2:
+      voice3env.amplitude(sustainLevel, decayTime);
+      break;
+    case 3:
+      voice4env.amplitude(sustainLevel, decayTime);
+      break;
+    case 4:
+      voice5env.amplitude(sustainLevel, decayTime);
+      break;
+    case 5:
+      voice6env.amplitude(sustainLevel, decayTime);
+      break;
+    case 6:
+      voice7env.amplitude(sustainLevel, decayTime);
+      break;
+    case 7:
+      voice8env.amplitude(sustainLevel, decayTime);
+      break;
+    } 
+  }
+
+  if (millis() - attackWait[key] > attackTimeFilter && noteTrigFlag[key]) {
+    switch (key) {
+    case 0:
+      voice1filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    case 1:
+      voice2filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    case 2:
+      voice3filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    case 3:
+      voice4filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    case 4:
+      voice5filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    case 5:
+      voice6filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    case 6:
+      voice7filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    case 7:
+      voice8filterenv.amplitude(sustainLevelFilter, decayTimeFilter);
+      break;
+    } 
+  }
+}
+
+void onReleaseSynth(int key) {
+  DEBUG_PRINT("\nButton ", key);
+  DEBUG_PRINTS(" Released.");
+  switch (key) {
+    case 0:
+      noteTrigFlag[key] = false;
+      voice1env.amplitude(0, releaseTime);
+      voice1filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+    case 1:
+      noteTrigFlag[key] = false;
+      voice2env.amplitude(0, releaseTime);
+      voice2filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+    case 2:
+      noteTrigFlag[key] = false;
+      voice3env.amplitude(0, releaseTime);
+      voice3filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+    case 3:
+      noteTrigFlag[key] = false;
+      voice4env.amplitude(0, releaseTime);
+      voice4filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+    case 4:
+      noteTrigFlag[key] = false;
+      voice5env.amplitude(0, releaseTime);
+      voice5filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+    case 5:
+      noteTrigFlag[key] = false;
+      voice6env.amplitude(0, releaseTime);
+      voice6filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+    case 6:
+      noteTrigFlag[key] = false;
+      voice7env.amplitude(0, releaseTime);
+      voice7filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+    case 7:
+      noteTrigFlag[key] = false;
+      voice8env.amplitude(0, releaseTime);
+      voice8filterenv.amplitude(-1, releaseTimeFilter);
+      break;
+  }
+}
+
