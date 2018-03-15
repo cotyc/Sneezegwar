@@ -536,8 +536,8 @@ void loop() {
     // Operate Drum machine mode
   }
 
-  DEBUG_PRINT("\n\t DIAGNOSTICS - CPU: ", AudioProcessorUsageMax());
-  DEBUG_PRINT("Memory: ", AudioMemoryUsageMax());
+//  DEBUG_PRINT("\n\t DIAGNOSTICS - CPU: ", AudioProcessorUsageMax());
+//  DEBUG_PRINT("Memory: ", AudioMemoryUsageMax());
   AudioProcessorUsageMaxReset();
 
   firstRunRead = false;

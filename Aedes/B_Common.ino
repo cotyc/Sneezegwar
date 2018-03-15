@@ -144,8 +144,9 @@ void readPots() {
 }
 
 boolean checkValueChange(int pot, int changeThresh) {
-  if (abs(potValues[pot] - potValuesPrevious[pot]) > changeThresh || firstRunRead) return true;
-  else return false;
+  boolean checkResult = (abs(potValues[pot] - potValuesPrevious[pot]) > changeThresh || firstRunRead);
+  //DEBUG_PRINT("\nChange Thresh called: ", checkResult);
+  return checkResult;
 }
 
 void setVolumes() {
