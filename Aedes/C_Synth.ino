@@ -5,7 +5,7 @@ void processPotsSynth(int pot) {
   switch (pot) {
     case 0:
       // VCO 1 Octave
-      if (checkValueChange(pot, changeThresh)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         octOneIndex = (potValues[pot] / 204) + 1;
         if (octOneIndex < 6) {
           vcoOneOct = octArray[octOneIndex];
@@ -14,7 +14,7 @@ void processPotsSynth(int pot) {
       break;
     case 1:
       // VCO 1 Shape
-      if (checkValueChange(pot, 250)) {     // Threshold for VCO shape is 250
+      if (checkValueChange(pot, VCO_SHAPE_THRESHHOLD) == true) {
         waveShapeOneIndex = potValues[pot] / 255;
         if (waveShapeOneIndex < 4) {
           voice1a.begin(waveShapes[waveShapeOneIndex]);
@@ -30,7 +30,7 @@ void processPotsSynth(int pot) {
       break;
     case 2:
       //VCO 1 Mix
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         vcoOneLevel = (potValues[pot]) / 1023;
         vcoTwoLevel = 1 - (potValues[pot]) / 1023;
         voice1mix.gain(1, vcoOneLevel);
@@ -53,7 +53,7 @@ void processPotsSynth(int pot) {
       break;
     case 3:
       // VCO 2 Octave
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         octTwoIndex = (potValues[pot] / 204) + 1;
         if (octTwoIndex < 6) {
           vcoTwoOct = octArray[octTwoIndex];
@@ -62,7 +62,7 @@ void processPotsSynth(int pot) {
       break;
     case 4:
       // VCO 2 Shape
-      if (checkValueChange(pot, 250)) {      // Threshold for VCO shape is 250
+      if (checkValueChange(pot, VCO_SHAPE_THRESHHOLD) == true) {
         waveShapeTwoIndex = potValues[pot] / 255;
         if (waveShapeTwoIndex < 4) {
           if (waveShapeTwoIndex == 3) {
@@ -83,27 +83,27 @@ void processPotsSynth(int pot) {
       break;
     case 5:
       // VCO 2 Detune
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         deTune = potValues[pot];
         deTune = mapfloat(deTune, 0, 1023, .875, 1.125);
       }
       break;
     case 6:
       // PulseWith / Mod
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         tempPulseWidth = 1 - (potValues[pot] / 1023);
         tempDetuneMod = potValues[pot] / 2046;
       }
       break;
     case 7:
       // LFO Frequency
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         lfo.frequency(potValues[pot] / 50);
       }
       break;
     case 8:
       // LFO Shape
-      if (checkValueChange(pot, 200)) {        // Threshold for LFO shape is 200
+      if (checkValueChange(pot, LFO_SHAPE_THRESHHOLD) == true) {
         lfoWaveShapeIndex = potValues[pot] / 204.6;
         if (lfoWaveShapeIndex < 5) {
           lfo.begin(lfoWaveShapes[lfoWaveShapeIndex]);
@@ -113,7 +113,7 @@ void processPotsSynth(int pot) {
       break;
     case 9:
       // LFO Noise
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         voice1n.amplitude(potValues[pot] / 3096);
         voice2n.amplitude(potValues[pot] / 3096);
         voice3n.amplitude(potValues[pot] / 3096);
@@ -126,19 +126,19 @@ void processPotsSynth(int pot) {
       break;
     case 10:
       // Delay Time
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         delay1.delay(0, potValues[pot] / 2.4);
       }
       break;
     case 11:
       // Delay Feedback
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         mainOutMixer.gain(3, potValues[pot] / 1023);
       }
       break;
     case 12:
       // Filter Cutoff
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         voice1filter.frequency(potValues[pot] * 10);
         voice2filter.frequency(potValues[pot] * 10);
         voice3filter.frequency(potValues[pot] * 10);
@@ -151,7 +151,7 @@ void processPotsSynth(int pot) {
       break;
     case 13:
       // Filter Resonance
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         voice1filter.resonance((potValues[pot] / 204) + .9);
         voice2filter.resonance((potValues[pot] / 204) + .9);
         voice3filter.resonance((potValues[pot] / 204) + .9);
@@ -164,7 +164,7 @@ void processPotsSynth(int pot) {
       break;
     case 14:
       // Filter LFO Mix
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         voice1filtermodmixer.gain(1, potValues[pot] / 1023);
         voice2filtermodmixer.gain(1, potValues[pot] / 1023);
         voice3filtermodmixer.gain(1, potValues[pot] / 1023);
@@ -177,7 +177,7 @@ void processPotsSynth(int pot) {
       break;
     case 15:
       // Filter Filter Mix
-      if (checkValueChange(pot, 5)) {
+      if (checkValueChange(pot, STD_THRESHHOLD) == true) {
         voice1filtermodmixer.gain(0, potValues[pot] / 1023);
         voice2filtermodmixer.gain(0, potValues[pot] / 1023);
         voice3filtermodmixer.gain(0, potValues[pot] / 1023);
@@ -188,9 +188,12 @@ void processPotsSynth(int pot) {
         voice8filtermodmixer.gain(0, potValues[pot] / 1023);
       }
       break;
-    case 16:    // End Muxer pot values and start direct pot values
-      // Octave - key of notes    
-      if (checkValueChange(pot, 144)) {        // Threshold for Octave (key) changes is 144
+
+// End Muxer pot values and start direct pot values
+
+    case 16:    
+      // Key    
+      if (checkValueChange(pot, KEY_THRESHOLD) == true) {
         colorIndex = potValues[pot] / 146;
         if (colorIndex < 7) {
           keyIndex = colorIndex;
@@ -202,7 +205,7 @@ void processPotsSynth(int pot) {
       break;
     case 17:
       // Envelope Controls - Attack
-      if (checkValueChange(pot, 1)) {
+      if (checkValueChange(pot, ENVELOPE_THRESHHOLD) == true) {
 
         if (firstRunRead) {
           attackTimeFilter = potValues[pot] * 2;
@@ -220,7 +223,7 @@ void processPotsSynth(int pot) {
       break;
     case 18:
       // Envelope Controls - Decay
-      if (checkValueChange(pot, 1)) {
+      if (checkValueChange(pot, ENVELOPE_THRESHHOLD) == true) {
 
         if (firstRunRead) {
           decayTimeFilter = potValues[pot];
@@ -237,7 +240,7 @@ void processPotsSynth(int pot) {
       break;
     case 19:
       // Envelope Controls - Sustain
-      if (checkValueChange(pot, 1)) {
+      if (checkValueChange(pot, ENVELOPE_THRESHHOLD) == true) {
 
         if (firstRunRead) {
           sustainLevelFilter = potValues[pot];
@@ -250,12 +253,11 @@ void processPotsSynth(int pot) {
         } else {
           sustainLevel = potValues[pot] / 1023;
         }
-
       }
       break;
     case 20:
       // Envelope Controls - Release
-      if (checkValueChange(pot, 1)) {
+      if (checkValueChange(pot, ENVELOPE_THRESHHOLD) == true) {
 
         if (firstRunRead) {
           releaseTimeFilter = potValues[pot] * 2;
@@ -270,7 +272,6 @@ void processPotsSynth(int pot) {
       }
       break;
   }
-  potValuesPrevious[pot] = potValues[pot];
 }
 
 

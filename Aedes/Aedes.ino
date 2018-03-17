@@ -66,7 +66,12 @@
 #define MUXDATA3_PIN 24     
 #define MUXSIGNAL_PIN 28    
 
-
+// Change Threshholds - Change these based on noise you may see on your aganlog inputs
+#define STD_THRESHHOLD 8              // 5
+#define VCO_SHAPE_THRESHHOLD 250      // 250
+#define LFO_SHAPE_THRESHHOLD 200      // 200
+#define ENVELOPE_THRESHHOLD 8         // 1
+#define KEY_THRESHOLD 144             // 144
 
 
 
@@ -291,15 +296,7 @@ AudioControlSGTL5000     sgtl5000_1;     //xy=2493,1036
 // *************************************************************************************************************
 // *************************************************************************************************************
 
-
-
-
-
-
-
-
 int currentMode = 0;   // tracks operating mode - 0 = synth, 1 = drum machine, 2 = sampler, etc.
-
 
 DebounceButton note0 = DebounceButton(BTN_PIN_0, DBTN_PULLUP_INTERNAL, 10, 8, 8);   // debounce time, hold time, retrigger time
 DebounceButton note1 = DebounceButton(BTN_PIN_1, DBTN_PULLUP_INTERNAL, 10, 8, 8);
@@ -314,7 +311,6 @@ int colorIndex = 0;
 int keyIndex = 0;
 
 float noteFreq[7][8] = {
-
                          //5       1       6      2      7      3      8     4
                          {220.00,246.94,277.18,293.66,329.63,369.99,415.30,440.00},
                          {246.94,277.18,311.13,329.63,369.99,415.30,466.16,493.88},
@@ -329,7 +325,6 @@ float noteFreq[7][8] = {
 
 // Original pattern where notes were not linear
 //float noteFreq[7][8] = {
-//
 //                         //5       1       6      2      7      3      8     4
 //                         {329.63,220.00,369.99,246.94,415.30,277.18,440.00,293.66},
 //                         {369.99,246.94,415.30,277.18,466.16,311.13,493.88,329.63},
@@ -349,14 +344,7 @@ const char *sampleNames[] = {"1TR_10.WAV", "1TR_16.WAV", "1TR_19.WAV", "1TR_21.W
 float potValues[21];
 float potValuesPrevious[21];
 
-//float potsMuxerValues[16];
-//float potsMuxerValuesPrevious[16];
-
 int potDirectPins[5] = {OCTAVE_PIN,ENVELOPE_ATTACK_PIN,ENVELOPE_DECAY_PIN,ENVELOPE_SUSTAIN_PIN,ENVELOPE_RELEASE_PIN};
-//float potsDirectValues[5];
-//float potsDirectValuesPrevious[5];
-int changeThresh;
-int extraChangeThresh;
 
 // LEDS
 int redLevel;
@@ -368,26 +356,33 @@ int blueLevelArray[7] = {  41,  129, 252, 0,   255, 180, 40};
 
 // Switches
 int envelopeFilter;
+boolean bassBoostState;
+boolean bassBoostStatePrevious;
 
+// Peak Values
 float tempPulseWidth;
 float tempPeak;
 float tempRMS;
 
-
-// Synth
+// Volumes
 float mainVolume;
 int tempLineOutLevel;
+
+// Synth
 float vcoOneLevel;
 float vcoTwoLevel;
-int vcoOneOct;
-int vcoTwoOct;
+int vcoOneOct = 1;
+int vcoTwoOct = 1;
+float deTune = 1;
 int octArray[6] = {1,1,2,4,8,16};
-float deTune;
 int waveShapeOneIndex;
 int waveShapeTwoIndex;
 int lfoWaveShapeIndex;
 int octOneIndex;
 int octTwoIndex;
+bool voiceBPulse;
+float tempDetuneMod;
+float deTuneLfo;
 
 // WaveShapes
 short waveShapes[4] = {
@@ -396,10 +391,7 @@ short waveShapes[4] = {
                         WAVEFORM_SQUARE,
                         WAVEFORM_PULSE,
                       };
-bool voiceBPulse;
-float tempDetuneMod;
-float deTuneLfo;
-
+                      
 // LFO WaveShapes
 short lfoWaveShapes[5] = {
                            WAVEFORM_SINE,
@@ -425,15 +417,11 @@ int releaseTimeFilter;
 bool noteTrigFlag[8];
 unsigned long attackWait[8];
 
-
 // Bitcrusher
-int current_CrushBits = 16; //this defaults to passthrough.
-int current_SampleRate = 44100; // this defaults to passthrough.
-
+int current_CrushBits = 16;    // this defaults to passthrough.
+int current_SampleRate = 44100;     // this defaults to passthrough.
 
 bool firstRunRead = true;
-
-
 
 
 void setup() {
@@ -457,6 +445,7 @@ void setup() {
   initButtons();
 
   pinMode(ENVELOPE_SWITCH_PIN, INPUT_PULLUP);
+  pinMode(BASS_BOOST_PIN, INPUT_PULLUP);
 
   // Init Mixer
   first4premix.gain(0, .25);
@@ -492,20 +481,20 @@ void setup() {
   mainOutMixer.gain(3,0);
   lfo.begin(1,3,WAVEFORM_SINE);
 
-  vcoOneOct = 1;
-  vcoTwoOct = 1;
-  deTune = 1;
   mainOutMixer.gain(0,.5);
   lfoenvelope.amplitude(1);
   voiceBPulse = false;
-
-  pinMode(BASS_BOOST_PIN, INPUT_PULLUP);
 
   bitcrusher1.bits(current_CrushBits); 
   bitcrusher1.sampleRate(current_SampleRate); 
 
   playChime(2);
 
+  sgtl5000_1.audioPostProcessorEnable();    // for Bass boost post effect
+
+  bassBoostState = !digitalRead(BASS_BOOST_PIN);
+  bassBoostStatePrevious = !bassBoostState;
+  
 }
 
 
@@ -517,16 +506,32 @@ void loop() {
 
   setVolumes();
   DebounceButton::updateAll();
+ 
   envelopeFilter = digitalRead(ENVELOPE_SWITCH_PIN);
-  readPots();
 
   if (analogRead(MODE_TOGGLE_PIN) < 200) {
     DEBUG_PRINTS("\nToggle Mode Button Pressed.");
     if (currentMode == 0) currentMode = 1;
     else if (currentMode == 1) currentMode = 0;
-    delay(150);  // !! temporary debounce method
+    delay(250);  // !! temporary debounce method
+  }
+  
+  bassBoostState = !digitalRead(BASS_BOOST_PIN);
+  if (bassBoostState != bassBoostStatePrevious) {
+    if (bassBoostState) {
+      sgtl5000_1.enhanceBassEnable();
+      DEBUG_PRINTS("\nBass boost on >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      bassBoostStatePrevious = bassBoostState;
+    }
+    else {
+      sgtl5000_1.enhanceBassDisable();
+      DEBUG_PRINTS("\nBass boost off <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+      bassBoostStatePrevious = bassBoostState;
+    }
   }
 
+  readPots();
+      
   if (currentMode == 0) {
     // Operate Synth mode
     defineNotes();

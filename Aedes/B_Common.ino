@@ -130,7 +130,7 @@ void readPots() {
   for (int i = 16; i < 21; i++) {
 
     // Reverse the readings (pots installed inverted)
-    potValues[i] = (1023 - getSmooth(potDirectPins[i]));
+    potValues[i] = (1023 - getSmooth(potDirectPins[i-16]));
 
     switch (currentMode) {
       case 0:
@@ -143,10 +143,18 @@ void readPots() {
   }
 }
 
-boolean checkValueChange(int pot, int changeThresh) {
-  boolean checkResult = (abs(potValues[pot] - potValuesPrevious[pot]) > changeThresh || firstRunRead);
-  //DEBUG_PRINT("\nChange Thresh called: ", checkResult);
-  return checkResult;
+boolean checkValueChange(int pot, int changeThreshhold) {
+   if (abs(potValues[pot] - potValuesPrevious[pot]) > changeThreshhold || firstRunRead) {
+    DEBUG_PRINT("\nPot #", pot);
+    DEBUG_PRINT(" (", potValues[pot]); 
+    DEBUG_PRINT("-", potValuesPrevious[pot]); 
+    DEBUG_PRINT("=", abs(potValues[pot] - potValuesPrevious[pot])); 
+    DEBUG_PRINT(" > ", changeThreshhold); 
+    DEBUG_PRINTS(")"); 
+    potValuesPrevious[pot] = potValues[pot];
+    return true;
+  }
+  else return false;
 }
 
 void setVolumes() {
