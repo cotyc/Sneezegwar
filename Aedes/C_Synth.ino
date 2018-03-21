@@ -133,7 +133,7 @@ void processPotsSynth(int pot) {
     case 11:
       // Delay Feedback
       if (checkValueChange(pot, STD_THRESHHOLD) == true) {
-        mainOutMixer.gain(3, potValues[pot] / 1023);
+        mixerFinalOut.gain(3, potValues[pot] / 1023);
       }
       break;
     case 12:
@@ -212,9 +212,7 @@ void processPotsSynth(int pot) {
           attackTime = potValues[pot] * 2;
         }
         if (envelopeFilter == HIGH) {
-          current_CrushBits = map(potValues[pot], 0, 1023, 16, 2);
-          bitcrusher1.bits(current_CrushBits);
-          // attackTimeFilter = potValues[pot] * 2;
+          attackTimeFilter = potValues[pot] * 2;
         } else {
           attackTime = potValues[pot] * 2;
         }
@@ -230,9 +228,7 @@ void processPotsSynth(int pot) {
           decayTime = potValues[pot];
         }
         if (envelopeFilter == HIGH) {
-          current_SampleRate = map(potValues[pot], 0, 1023, 44100, 345);
-          bitcrusher1.sampleRate(current_SampleRate);
-          // decayTimeFilter = potValues[pot];
+          decayTimeFilter = potValues[pot];
         } else {
           decayTime = potValues[pot];
         }

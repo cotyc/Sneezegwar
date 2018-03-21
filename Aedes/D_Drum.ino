@@ -78,7 +78,7 @@ void processPotsDrums(int pot) {
     case 11:
       // Delay Feedback
       if (checkValueChange(pot, 5) == true) {
-        mainOutMixer.gain(3, potValues[pot] / 1023);
+        mixerFinalOut.gain(3, potValues[pot] / 1023);
       }
       break;
     case 12:
@@ -100,14 +100,14 @@ void processPotsDrums(int pot) {
       // Envelope Controls - Attack
       if (checkValueChange(pot, 1) == true) {
         current_CrushBits = map(potValues[pot], 0, 1023, 16, 2);
-        bitcrusher1.bits(current_CrushBits);
+        bitcrusherFX.bits(current_CrushBits);
       }
       break;
     case 18:
       // Envelope Controls - Decay
       if (checkValueChange(pot, 1) == true) {
           current_SampleRate = map(potValues[pot], 0, 1023, 44100, 345);
-          bitcrusher1.sampleRate(current_SampleRate);
+          bitcrusherFX.sampleRate(current_SampleRate);
       }
       break;
     case 19:
